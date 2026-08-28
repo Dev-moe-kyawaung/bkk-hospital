@@ -1,0 +1,1384 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bangkok Hospital Guide — ဘန်ကောက် ဆေးရုံ လမ်းညွှန်</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=Noto+Sans+Myanmar:wght@400;500;600;700&family=Noto+Serif+Myanmar:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============ Design tokens ============ */
+:root{
+  --paper:#F5F1E4;
+  --paper-2:#EDE7D3;
+  --ink:#17231D;
+  --ink-soft:#4A5A52;
+  --line:#D8D0B8;
+  --green:#0E5B4B;
+  --green-deep:#0A4036;
+  --green-ink:#0C1E18;
+  --accent:#E0532D;
+  --accent-soft:#F4D9CE;
+  --gold:#C9A227;
+  --radius:14px;
+  --shadow:0 18px 40px -18px rgba(23,35,29,.28);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'IBM Plex Sans Thai','Noto Sans Myanmar','Instrument Sans',-apple-system,sans-serif;
+  font-size:16px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+body[data-lang="my"]{line-height:1.85}
+img{max-width:100%}
+a{color:inherit}
+button{font-family:inherit;cursor:pointer}
+section{scroll-margin-top:104px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+@media(max-width:640px){.wrap{padding:0 18px}}
+
+/* ============ Typography helpers ============ */
+.eyebrow{
+  font-family:'Fraunces',serif;
+  font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--accent);font-weight:600;display:inline-flex;align-items:center;gap:10px;
+}
+.eyebrow::before{content:"";width:26px;height:2px;background:var(--accent)}
+.h-display{font-weight:600;letter-spacing:-.015em;color:var(--ink)}
+body[data-lang="my"] .h-display{font-family:'Noto Serif Myanmar',serif;font-weight:600}
+body[data-lang="th"] .h-display{font-family:'IBM Plex Sans Thai',sans-serif;font-weight:700}
+.sec-title{font-size:clamp(1.7rem,3.4vw,2.5rem);line-height:1.35;margin:14px 0 10px}
+.sec-sub{color:var(--ink-soft);max-width:620px}
+.mono{font-family:'Fraunces',serif;font-variant-numeric:tabular-nums}
+
+/* ============ Topbar ============ */
+#topbar{background:var(--green-ink);color:#E9E4D2;font-size:.82rem}
+#topbar .wrap{display:flex;justify-content:space-between;align-items:center;gap:14px;padding-top:8px;padding-bottom:8px}
+#topbar a{color:var(--gold);text-decoration:none;font-weight:600;white-space:nowrap}
+#topbar .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);margin-right:8px;animation:pulse 1.6s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(224,83,45,.5)}70%{box-shadow:0 0 0 7px rgba(224,83,45,0)}100%{box-shadow:0 0 0 0 rgba(224,83,45,0)}}
+@media(max-width:640px){#topbar .tb-hours{display:none}}
+
+/* ============ Header ============ */
+#siteHead{position:sticky;top:0;z-index:60;background:rgba(245,241,228,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);transition:box-shadow .3s}
+#siteHead.scrolled{box-shadow:0 10px 30px -18px rgba(23,35,29,.35)}
+#siteHead .wrap{display:flex;align-items:center;gap:26px;padding-top:14px;padding-bottom:14px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.brand-mark{width:40px;height:40px;flex:none}
+.brand-name{font-family:'Fraunces',serif;font-weight:700;font-size:1.06rem;line-height:1.1;color:var(--ink)}
+.brand-sub{font-size:.68rem;color:var(--ink-soft);line-height:1.4}
+nav.main{display:flex;gap:22px;margin-left:auto}
+nav.main a{text-decoration:none;font-size:.9rem;font-weight:500;color:var(--ink-soft);padding:4px 0;border-bottom:2px solid transparent;transition:.2s}
+nav.main a:hover,nav.main a.active{color:var(--ink);border-bottom-color:var(--accent)}
+.lang-seg{display:flex;border:1.5px solid var(--ink);border-radius:999px;overflow:hidden;flex:none}
+.lang-seg button{background:transparent;border:0;padding:7px 15px;font-size:.82rem;font-weight:600;color:var(--ink);font-family:inherit;transition:.2s}
+.lang-seg button.on{background:var(--green);color:var(--paper)}
+#hambBtn{display:none;margin-left:auto;background:none;border:1.5px solid var(--ink);border-radius:10px;width:42px;height:42px;align-items:center;justify-content:center}
+#mobileNav{display:none;background:var(--paper);border-bottom:1px solid var(--line);padding:10px 28px 20px;flex-direction:column;gap:4px}
+#mobileNav a{text-decoration:none;font-weight:600;padding:10px 4px;border-bottom:1px dashed var(--line)}
+#mobileNav.open{display:flex}
+@media(max-width:920px){
+  nav.main,.head-cta{display:none}
+  #hambBtn{display:inline-flex}
+  .lang-seg{margin-left:auto}
+  #hambBtn{margin-left:10px}
+}
+
+/* ============ Buttons ============ */
+.btn{display:inline-flex;align-items:center;gap:9px;border-radius:999px;padding:13px 26px;font-size:.94rem;font-weight:600;text-decoration:none;border:1.5px solid transparent;transition:transform .18s,box-shadow .18s,background .18s;white-space:nowrap}
+.btn:active{transform:translateY(1px)}
+.btn-green{background:var(--green);color:var(--paper)}
+.btn-green:hover{background:var(--green-deep);box-shadow:0 12px 26px -12px rgba(14,91,75,.6)}
+.btn-accent{background:var(--accent);color:#FFF7EC}
+.btn-accent:hover{background:#C6431F;box-shadow:0 12px 26px -12px rgba(224,83,45,.65)}
+.btn-ghost{border-color:var(--ink);color:var(--ink);background:transparent}
+.btn-ghost:hover{background:var(--ink);color:var(--paper)}
+.btn-paper{background:var(--paper);color:var(--green-deep)}
+.btn-paper:hover{box-shadow:0 12px 26px -12px rgba(0,0,0,.45)}
+.btn-sm{padding:9px 18px;font-size:.84rem}
+
+/* ============ Hero ============ */
+#hero{position:relative;overflow:hidden;
+  background-image:repeating-linear-gradient(0deg,transparent 0 34px,rgba(23,35,29,.055) 34px 35px);
+  border-bottom:1px solid var(--line);}
+#hero .wrap{display:grid;grid-template-columns:7fr 5fr;gap:56px;padding-top:72px;padding-bottom:64px;align-items:start}
+.hero-title{font-size:clamp(2.1rem,4.6vw,3.5rem);line-height:1.28;margin:20px 0 18px}
+.hero-title em{font-style:normal;color:var(--green);position:relative;white-space:nowrap}
+.hero-title em::after{content:"";position:absolute;left:0;right:0;bottom:.04em;height:.14em;background:var(--accent);opacity:.85;z-index:-1;border-radius:2px}
+body[data-lang="my"] .hero-title em::after{bottom:.02em;height:.1em}
+.hero-sub{color:var(--ink-soft);max-width:560px;font-size:1.02rem}
+.hero-ctas{display:flex;gap:14px;margin-top:28px;flex-wrap:wrap}
+.hero-quick{margin-top:36px}
+.hero-quick p{font-size:.82rem;font-weight:600;color:var(--ink-soft);margin-bottom:10px}
+.chip-row{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1.5px solid var(--ink);background:transparent;border-radius:999px;padding:7px 16px;font-size:.85rem;font-weight:500;color:var(--ink);transition:.18s;font-family:inherit}
+.chip:hover{background:var(--ink);color:var(--paper)}
+.chip.on{background:var(--green);border-color:var(--green);color:var(--paper)}
+
+/* availability board */
+.board{background:#FDFBF3;border:1.5px solid var(--ink);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 22px 18px;position:relative}
+.board-head{display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:2px solid var(--ink);padding-bottom:12px}
+.board-head h3{font-size:1rem;font-weight:700}
+.live{display:inline-flex;align-items:center;gap:7px;font-size:.72rem;font-weight:700;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;font-family:'Fraunces',serif}
+.live i{width:8px;height:8px;border-radius:50%;background:var(--accent);animation:pulse 1.6s infinite}
+.board-slot{margin-top:16px;min-height:118px;position:relative}
+.board-slot .slot{display:flex;flex-direction:column;gap:4px}
+.board-slot.flip .slot{animation:flipIn .5s ease}
+@keyframes flipIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.slot-time{font-family:'Fraunces',serif;font-size:1.9rem;font-weight:600;color:var(--accent);line-height:1}
+.slot-dept{font-weight:700;font-size:1.02rem}
+.slot-hosp{color:var(--ink-soft);font-size:.88rem}
+.slot-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:8px}
+.slot-reserve{border:1.5px solid var(--green);color:var(--green);background:transparent;border-radius:999px;padding:6px 16px;font-size:.82rem;font-weight:600;transition:.18s;font-family:inherit}
+.slot-reserve:hover{background:var(--green);color:var(--paper)}
+.board-stamp{position:absolute;right:14px;top:58px;transform:rotate(-6deg);border:2px solid var(--accent);color:var(--accent);font-size:.66rem;font-weight:700;padding:4px 9px;border-radius:6px;letter-spacing:.06em;opacity:.9;text-align:center;line-height:1.5;pointer-events:none;max-width:120px}
+.board-bar{height:4px;background:var(--paper-2);border-radius:99px;margin-top:14px;overflow:hidden}
+.board-bar i{display:block;height:100%;width:100%;background:var(--accent);border-radius:99px}
+.board-bar i.run{animation:shrink 4s linear forwards}
+@keyframes shrink{from{width:100%}to{width:0%}}
+
+/* stats strip */
+.stats{border-top:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink)}
+.stats .wrap{display:grid;grid-template-columns:repeat(4,1fr);padding-top:22px;padding-bottom:22px}
+.stat{padding:6px 22px;border-left:1px solid var(--line)}
+.stat:first-child{border-left:0;padding-left:0}
+.stat b{display:block;font-family:'Fraunces',serif;font-size:2.1rem;font-weight:600;color:var(--green);line-height:1.1}
+.stat span{font-size:.82rem;color:var(--ink-soft)}
+@media(max-width:920px){
+  #hero .wrap{grid-template-columns:1fr;gap:38px;padding-top:52px}
+  .stats .wrap{grid-template-columns:repeat(2,1fr);gap:18px 0}
+  .stat:nth-child(3){border-left:0;padding-left:0}
+}
+
+/* ============ Section shells ============ */
+.sec{padding:88px 0}
+@media(max-width:640px){.sec{padding:60px 0}}
+.sec-head{margin-bottom:36px}
+
+/* ============ Directory ledger ============ */
+.dir-tools{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-bottom:8px}
+.search-box{display:flex;align-items:center;gap:9px;border:1.5px solid var(--ink);border-radius:999px;padding:9px 18px;background:#FDFBF3;flex:1;min-width:220px;max-width:360px}
+.search-box svg{flex:none;color:var(--ink-soft)}
+.search-box input{border:0;background:transparent;outline:none;font-family:inherit;font-size:.92rem;width:100%;color:var(--ink)}
+.dir-count{font-size:.8rem;color:var(--ink-soft);margin-left:auto}
+#specChips{margin:16px 0 26px}
+.ledger{border-top:2px solid var(--ink)}
+.h-row{border-bottom:1px solid var(--line);transition:background .2s}
+.h-row:hover{background:rgba(14,91,75,.045)}
+.h-row.open{background:#FDFBF3;box-shadow:inset 4px 0 0 var(--accent)}
+.h-head{display:grid;grid-template-columns:66px 1.5fr 1.2fr 92px 150px 36px;align-items:center;gap:16px;width:100%;background:none;border:0;text-align:left;padding:20px 8px;font-family:inherit;color:inherit}
+.h-no{font-family:'Fraunces',serif;font-size:1.7rem;font-weight:400;color:var(--line);transition:.2s;line-height:1}
+.h-row:hover .h-no,.h-row.open .h-no{color:var(--accent)}
+.h-name strong{display:block;font-size:1.06rem;font-weight:700;line-height:1.4}
+.h-name span{display:block;font-size:.8rem;color:var(--ink-soft)}
+.h-specs{display:flex;flex-wrap:wrap;gap:6px}
+.mini-tag{font-size:.72rem;border:1px solid var(--line);border-radius:6px;padding:2px 8px;color:var(--ink-soft);background:var(--paper)}
+.h-tier{display:flex;gap:4px;align-items:center}
+.h-tier i{width:9px;height:9px;border-radius:50%;border:1.5px solid var(--green);display:block}
+.h-tier i.f{background:var(--green)}
+.h-int{font-size:.74rem;font-weight:600;color:var(--green)}
+.h-int.req{color:var(--ink-soft);font-weight:500}
+.h-chev{justify-self:end;transition:transform .3s;color:var(--ink-soft)}
+.h-row.open .h-chev{transform:rotate(180deg)}
+.h-body{display:none;padding:4px 8px 30px 90px}
+.h-row.open .h-body{display:grid;grid-template-columns:1.1fr .9fr;gap:34px}
+.h-desc{color:var(--ink-soft);font-size:.95rem}
+.h-depts{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.pkg-list{border-top:1px dashed var(--line)}
+.pkg{display:flex;align-items:baseline;gap:10px;padding:9px 0;border-bottom:1px dashed var(--line);font-size:.9rem}
+.pkg .dots{flex:1;border-bottom:2px dotted var(--line);transform:translateY(-4px)}
+.pkg b{font-family:'Fraunces',serif;font-weight:600;color:var(--green);white-space:nowrap}
+.h-meta{display:flex;flex-wrap:wrap;gap:8px 22px;margin:14px 0 18px;font-size:.83rem;color:var(--ink-soft)}
+.h-meta b{color:var(--ink)}
+.h-actions{display:flex;gap:10px;flex-wrap:wrap}
+#dirEmpty{display:none;padding:44px 8px;text-align:center;color:var(--ink-soft);border-bottom:1px solid var(--line)}
+#dirEmpty button{margin-top:12px}
+@media(max-width:920px){
+  .h-head{grid-template-columns:44px 1fr 36px;row-gap:8px;padding:16px 4px}
+  .h-no{font-size:1.2rem}
+  .h-specs,.h-tier{display:none}
+  .h-int{grid-column:2;grid-row:2}
+  .h-body{padding-left:4px;grid-template-columns:1fr;gap:22px}
+}
+
+/* ============ Packages ============ */
+#packages{background:var(--paper-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.pkg-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 60px;border-top:2px solid var(--ink)}
+.p-row{display:flex;align-items:baseline;gap:12px;padding:16px 0;border-bottom:1px solid var(--line)}
+.p-row .name{font-weight:600;font-size:.98rem}
+.p-row .name span{display:block;font-weight:400;font-size:.78rem;color:var(--ink-soft)}
+.p-row .dots{flex:1;border-bottom:2px dotted #B9AF92;transform:translateY(-5px)}
+.p-row .price{font-family:'Fraunces',serif;font-weight:600;color:var(--green);white-space:nowrap}
+.fx-note{margin-top:18px;font-size:.84rem;color:var(--ink-soft);display:flex;align-items:center;gap:9px}
+.fx-note svg{color:var(--accent);flex:none}
+@media(max-width:760px){.pkg-grid{grid-template-columns:1fr}}
+
+/* ============ Journey ============ */
+#journey{background:var(--paper)}
+.j-wrap{position:relative;max-width:840px}
+.j-rail{position:absolute;left:27px;top:14px;bottom:14px;width:3px;background:var(--line);border-radius:3px}
+.j-fill{position:absolute;left:0;top:0;width:100%;height:0;background:var(--accent);border-radius:3px;transition:height .15s linear}
+.step{display:grid;grid-template-columns:58px 1fr;gap:26px;padding:26px 0;position:relative}
+.step-dot{width:56px;height:56px;border-radius:50%;border:2px solid var(--line);background:var(--paper);display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:1.25rem;font-weight:600;color:var(--ink-soft);transition:.35s;z-index:1}
+.step.done .step-dot{border-color:var(--accent);background:var(--accent);color:#FFF6EC;box-shadow:0 8px 20px -8px rgba(224,83,45,.55)}
+.step h3{font-size:1.22rem;font-weight:700;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.step h3 .tag{font-size:.68rem;font-weight:700;letter-spacing:.05em;border:1.5px solid var(--green);color:var(--green);border-radius:999px;padding:3px 11px;font-family:'Fraunces',serif;text-transform:uppercase}
+.step p{color:var(--ink-soft);margin-top:8px;max-width:600px;font-size:.96rem}
+@media(max-width:640px){.step{grid-template-columns:44px 1fr;gap:16px}.step-dot{width:44px;height:44px;font-size:1rem}.j-rail{left:21px}}
+
+/* ============ Booking (dark) ============ */
+#booking{background:var(--green-deep);color:var(--paper)}
+#booking .eyebrow{color:var(--gold)}
+#booking .eyebrow::before{background:var(--gold)}
+#booking .sec-sub{color:#BFD3C8}
+.book-grid{display:grid;grid-template-columns:7fr 5fr;gap:36px;margin-top:36px;align-items:start}
+.panel{background:var(--paper);color:var(--ink);border-radius:var(--radius);padding:30px;box-shadow:var(--shadow)}
+.tabs{display:flex;gap:0;border-bottom:2px solid var(--line);margin-bottom:26px}
+.tab{background:none;border:0;font-family:inherit;font-size:.98rem;font-weight:600;color:var(--ink-soft);padding:10px 20px;border-bottom:3px solid transparent;margin-bottom:-2px;transition:.2s}
+.tab.on{color:var(--green);border-bottom-color:var(--accent)}
+.f-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px 18px}
+.f-field{display:flex;flex-direction:column;gap:6px}
+.f-field.full{grid-column:1/-1}
+.f-field label{font-size:.8rem;font-weight:600;color:var(--ink-soft)}
+.f-field input,.f-field select,.f-field textarea{
+  border:1.5px solid #C9C2A8;border-radius:10px;padding:11px 14px;font-family:inherit;font-size:.94rem;background:#FDFBF3;color:var(--ink);outline:none;transition:.2s;width:100%}
+.f-field textarea{resize:vertical;min-height:88px}
+.f-field input:focus,.f-field select:focus,.f-field textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(14,91,75,.14)}
+.f-field input.bad,.f-field select.bad,.f-field textarea.bad{border-color:var(--accent);box-shadow:0 0 0 3px rgba(224,83,45,.14)}
+.err{font-size:.75rem;color:var(--accent);font-weight:600;display:none}
+.err.show{display:block}
+.consent{display:flex;gap:10px;align-items:flex-start;font-size:.84rem;color:var(--ink-soft)}
+.consent input{width:18px;height:18px;margin-top:2px;accent-color:var(--green);flex:none}
+.form-submit{margin-top:22px}
+.aside-card{border:1.5px solid rgba(245,241,228,.3);border-radius:var(--radius);padding:28px}
+.aside-card h3{font-size:1.15rem;margin-bottom:16px;font-weight:700}
+.perk{display:flex;gap:12px;padding:12px 0;border-bottom:1px dashed rgba(245,241,228,.22);font-size:.92rem;color:#DCE8E0}
+.perk:last-child{border-bottom:0}
+.perk svg{flex:none;color:var(--gold);margin-top:3px}
+/* ticket */
+#sideTicket{display:none}
+.ticket{background:#FDFBF3;color:var(--ink);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);animation:flipIn .55s ease}
+.tk-head{background:var(--accent);color:#FFF7EC;padding:20px 26px;display:flex;align-items:center;gap:13px}
+.tk-head svg{flex:none}
+.tk-head h3{font-size:1.1rem;line-height:1.4}
+.tk-ref{padding:20px 26px;border-bottom:2px dashed var(--line);position:relative;text-align:center}
+.tk-ref::before,.tk-ref::after{content:"";position:absolute;top:-13px;width:26px;height:26px;border-radius:50%;background:var(--green-deep)}
+.tk-ref::before{left:-13px}.tk-ref::after{right:-13px}
+.tk-ref small{display:block;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);font-weight:700;font-family:'Fraunces',serif}
+.tk-ref b{font-family:'Fraunces',serif;font-size:1.9rem;font-weight:600;color:var(--green);letter-spacing:.06em}
+.tk-rows{padding:16px 26px}
+.tk-row{display:flex;justify-content:space-between;gap:14px;padding:8px 0;border-bottom:1px dashed var(--line);font-size:.9rem}
+.tk-row:last-child{border-bottom:0}
+.tk-row span{color:var(--ink-soft)}
+.tk-row b{font-weight:600;text-align:right}
+.tk-note{margin:0 26px;padding:12px 14px;background:var(--accent-soft);border-radius:10px;font-size:.82rem;color:#8C3115}
+.tk-bar{height:44px;margin:20px 26px 8px;background:repeating-linear-gradient(90deg,var(--ink) 0 2px,transparent 2px 5px,var(--ink) 5px 8px,transparent 8px 10px,var(--ink) 10px 11px,transparent 11px 15px)}
+.tk-actions{display:flex;gap:10px;padding:10px 26px 24px;flex-wrap:wrap}
+@media(max-width:920px){.book-grid{grid-template-columns:1fr}.f-grid{grid-template-columns:1fr}}
+
+/* ============ Contact ============ */
+#contact .wrap{display:grid;grid-template-columns:7fr 5fr;gap:56px;align-items:start}
+.hot-line{display:flex;align-items:center;gap:20px;padding:24px 4px;border-bottom:1px solid var(--line);text-decoration:none;transition:.2s}
+.hot-line:hover{padding-left:14px}
+.hot-ico{width:52px;height:52px;flex:none;border:1.5px solid var(--ink);border-radius:14px;display:flex;align-items:center;justify-content:center;color:var(--green);background:#FDFBF3}
+.hot-line.urgent .hot-ico{color:var(--accent);border-color:var(--accent)}
+.hot-label{font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);font-family:'Fraunces',serif}
+.hot-num{font-family:'Fraunces',serif;font-size:clamp(1.3rem,2.6vw,1.9rem);font-weight:600;color:var(--ink);line-height:1.2}
+.hot-line.urgent .hot-num{color:var(--accent)}
+.hot-note{font-size:.8rem;color:var(--ink-soft)}
+.hot-arrow{margin-left:auto;color:var(--line);transition:.2s}
+.hot-line:hover .hot-arrow{color:var(--accent);transform:translateX(4px)}
+.contact-side{border:1.5px solid var(--ink);border-radius:var(--radius);background:#FDFBF3;box-shadow:var(--shadow);padding:28px;position:sticky;top:120px}
+.clock-block{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:14px 0;border-bottom:1px dashed var(--line)}
+.clock-block:first-child{padding-top:0}
+.clock-block b{font-family:'Fraunces',serif;font-size:1.8rem;font-weight:600;color:var(--green);font-variant-numeric:tabular-nums}
+.clock-block span{font-size:.85rem;color:var(--ink-soft)}
+.side-rows{margin-top:18px;font-size:.9rem}
+.side-row{display:flex;gap:12px;padding:11px 0;border-bottom:1px dashed var(--line);color:var(--ink-soft)}
+.side-row svg{flex:none;color:var(--green);margin-top:3px}
+.side-row b{color:var(--ink);font-weight:600}
+@media(max-width:920px){#contact .wrap{grid-template-columns:1fr;gap:34px}.contact-side{position:static}}
+
+/* ============ Footer ============ */
+footer{background:var(--green-ink);color:#B9C9BE;padding:64px 0 34px;margin-top:0}
+footer .wrap{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:48px}
+footer h4{color:var(--paper);font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;font-family:'Fraunces',serif;margin-bottom:16px}
+footer a{color:#B9C9BE;text-decoration:none;display:block;padding:4px 0;font-size:.9rem;transition:.2s}
+footer a:hover{color:var(--gold)}
+.foot-brand{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.foot-brand span{font-family:'Fraunces',serif;font-weight:700;color:var(--paper);font-size:1.1rem}
+.foot-desc{font-size:.9rem;max-width:420px}
+.foot-bottom{border-top:1px solid rgba(245,241,228,.14);margin-top:44px;padding-top:22px;font-size:.8rem;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;color:#7E9186}
+@media(max-width:820px){footer .wrap{grid-template-columns:1fr;gap:34px}}
+
+/* ============ Floating call + toast ============ */
+#callFab{position:fixed;right:20px;bottom:20px;z-index:80;width:58px;height:58px;border-radius:50%;background:var(--accent);color:#FFF7EC;display:none;align-items:center;justify-content:center;box-shadow:0 14px 30px -8px rgba(224,83,45,.6);text-decoration:none;animation:pulse 2s infinite}
+@media(max-width:760px){#callFab{display:flex}}
+#toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);background:var(--ink);color:var(--paper);padding:12px 22px;border-radius:999px;font-size:.86rem;font-weight:500;opacity:0;pointer-events:none;transition:.35s;z-index:100;box-shadow:0 14px 34px -10px rgba(0,0,0,.4);max-width:90vw;text-align:center}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+</style>
+</head>
+<body data-lang="my">
+
+<!-- ======= Top hotline bar ======= -->
+<div id="topbar">
+  <div class="wrap">
+    <span><i class="dot"></i><span data-i18n="top.left">မြန်မာဖောက်သည်များအတွက် အမြန်လိုင်း — Viber · WhatsApp · ဖုန်း</span>&nbsp;&nbsp;<a href="tel:+959770111222">+95 9 770 111 222</a></span>
+    <span class="tb-hours" data-i18n="top.right">တနင်္လာ – စနေ · ၀၈:၀၀ – ၂၀:၀၀ (ဘန်ကောက်အချိန်)</span>
+  </div>
+</div>
+
+<!-- ======= Header ======= -->
+<header id="siteHead">
+  <div class="wrap">
+    <a class="brand" href="#hero">
+      <svg class="brand-mark" viewBox="0 0 44 44" fill="none">
+        <rect x="2" y="2" width="40" height="40" rx="11" fill="#0E5B4B"/>
+        <path d="M22 12v20M12 22h20" stroke="#F5F1E4" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="34.5" cy="9.5" r="4.5" fill="#E0532D"/>
+      </svg>
+      <span>
+        <span class="brand-name">Bangkok Hospital Guide</span><br>
+        <span class="brand-sub" data-i18n="brand.sub">ဘန်ကောက်မြို့ ဆေးရုံ လမ်းညွှန် · မြန်မာ / ထိုင်း</span>
+      </span>
+    </a>
+    <nav class="main">
+      <a href="#hospitals" data-sec="hospitals" data-i18n="nav.hospitals">ဆေးရုံများ</a>
+      <a href="#packages" data-sec="packages" data-i18n="nav.costs">ကုန်ကျစရိတ်</a>
+      <a href="#journey" data-sec="journey" data-i18n="nav.journey">ခရီးစဉ် အဆင့်များ</a>
+      <a href="#booking" data-sec="booking" data-i18n="nav.booking">ချိန်းဆိုမှု</a>
+      <a href="#contact" data-sec="contact" data-i18n="nav.contact">ဆက်သွယ်ရန်</a>
+    </nav>
+    <div class="lang-seg" role="group" aria-label="Language">
+      <button data-lang-btn="my" class="on">မြန်မာ</button>
+      <button data-lang-btn="th">ไทย</button>
+    </div>
+    <button id="hambBtn" aria-label="Menu" aria-expanded="false">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+  </div>
+  <div id="mobileNav">
+    <a href="#hospitals" data-i18n="nav.hospitals">ဆေးရုံများ</a>
+    <a href="#packages" data-i18n="nav.costs">ကုန်ကျစရိတ်</a>
+    <a href="#journey" data-i18n="nav.journey">ခရီးစဉ် အဆင့်များ</a>
+    <a href="#booking" data-i18n="nav.booking">ချိန်းဆိုမှု</a>
+    <a href="#contact" data-i18n="nav.contact">ဆက်သွယ်ရန်</a>
+  </div>
+</header>
+
+<main>
+<!-- ======= Hero ======= -->
+<section id="hero">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow" data-i18n="hero.eyebrow">မြန်မာလူနာများအတွက် · ထိုင်းနိုင်ငံ</span>
+      <h1 class="h-display hero-title">
+        <span data-i18n="hero.l1">ဘန်ကောက်မှာ စိတ်ချရတဲ့ ကုသမှု</span><br>
+        <em data-i18n="hero.l2">မြန်မာလို လမ်းပြပေးမည်</em>
+      </h1>
+      <p class="hero-sub" data-i18n="hero.sub">ဆေးရုံ ၂၀ ကျော်ကို နှိုင်းယှဉ်ပြီး ကြိုတင်ချိန်းဆိုနိုင်သည်။ မြန်မာဘာသာပြန်၊ ဗီဇာနှင့် ခရီးသွားအကူအညီ၊ ကုန်ကျစရိတ် ခန့်မှန်းချက် — အားလုံးကို တစ်နေရာတည်းမှ။</p>
+      <div class="hero-ctas">
+        <a class="btn btn-accent" href="#booking">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>
+          <span data-i18n="hero.cta1">ကြိုတင်ချိန်းဆိုပါ</span>
+        </a>
+        <a class="btn btn-ghost" href="tel:+959770111222">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.13.96.36 1.9.7 2.8a2 2 0 0 1-.45 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.45c.9.34 1.84.57 2.8.7A2 2 0 0 1 22 16.9z"/></svg>
+          <span data-i18n="hero.cta2">အမြန်လိုင်း ခေါ်ပါ</span>
+        </a>
+      </div>
+      <div class="hero-quick">
+        <p data-i18n="hero.quick">အထူးပြုမှု ရွေးပါ — ဆေးရုံစာရင်းကို အလိုအလျောက် စစ်ပေးမည်</p>
+        <div class="chip-row" id="heroChips"></div>
+      </div>
+    </div>
+
+    <!-- Live availability board -->
+    <div class="board" id="board">
+      <div class="board-head">
+        <h3 data-i18n="board.title">မနက်ဖြန် နာရီလွတ်များ</h3>
+        <span class="live"><i></i>LIVE</span>
+      </div>
+      <div class="board-slot" id="boardSlot"></div>
+      <div class="board-stamp" data-i18n="board.stamp">မြန်မာဘာသာပြန်<br>တာဝန်ထမ်းဆောင်နေ</div>
+      <div class="board-bar"><i id="boardBar" class="run"></i></div>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="wrap">
+      <div class="stat"><b data-count="24">0</b><span data-i18n="stat.s1">မိတ်ဖက် ဆေးရုံ</span></div>
+      <div class="stat"><b data-count="60" data-suffix="+">0</b><span data-i18n="stat.s2">မြန်မာဘာသာပြန်</span></div>
+      <div class="stat"><b data-count="12">0</b><span data-i18n="stat.s3">နှစ်ကြာ မြန်မာလူနာများကို ကူညီခြင်း</span></div>
+      <div class="stat"><b data-count="98" data-suffix="%">0</b><span data-i18n="stat.s4">လူနာ ကျေနပ်မှု</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======= Hospital directory ======= -->
+<section id="hospitals" class="sec">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Directory · ၀၁ – ၀၈</span>
+      <h2 class="h-display sec-title" data-i18n="dir.title">ဆေးရုံနှင့် ဆေးခန်း လမ်းညွှန်</h2>
+      <p class="sec-sub" data-i18n="dir.sub">စျေးနှုန်းအဆင့်၊ မြန်မာဘာသာပြန် ရရှိမှုနှင့် ဌာနအထူးပြုများဖြင့် နှိုင်းယှဉ်ကြည့်ပါ။ အတန်းတစ်ခုကို နှိပ်ပြီး အသေးစိတ်ကို ကြည့်ပါ။</p>
+    </div>
+    <div class="dir-tools">
+      <div class="search-box">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="dirSearch" type="text" data-i18n-ph="dir.ph" placeholder="ဆေးရုံနာမည်၊ ဌာန ရှာပါ…">
+      </div>
+      <span class="dir-count" id="dirCount"></span>
+    </div>
+    <div class="chip-row" id="specChips"></div>
+    <div class="ledger" id="dirList"></div>
+    <div id="dirEmpty">
+      <span data-i18n="dir.empty">ကိုက်ညီမှု မတွေ့ပါ — စစ်ထိန်းများကို ပြောင်းလဲကြည့်ပါ။</span><br>
+      <button class="btn btn-ghost btn-sm" id="dirReset" data-i18n="dir.reset">စစ်ထိန်း အားလုံး ဖျက်</button>
+    </div>
+  </div>
+</section>
+
+<!-- ======= Price guide ======= -->
+<section id="packages" class="sec">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Price Guide</span>
+      <h2 class="h-display sec-title" data-i18n="pkg.title">ကုသမှု ကုန်ကျစရိတ် ခန့်မှန်းချက်</h2>
+      <p class="sec-sub" data-i18n="pkg.sub">ထင်ရှားသော ဝန်ဆောင်မှုများ၏ ပျမ်းမျှ စျေးနှုန်း (ထိုင်း ဘတ်) — ဆေးရုံနှင့် ကုသနည်းအပေါ် မူတည်ပြောင်းနိုင်သည်။</p>
+    </div>
+    <div class="pkg-grid" id="pkgList"></div>
+    <p class="fx-note">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.5"/></svg>
+      <span data-i18n="pkg.fx">ငွေလဲလှယ်နှုန်း ၁ ဘတ် ≈ ၁၄၅ ကျပ် — နေ့စဉ် ပြောင်းလဲနိုင်ပါသည်။</span>
+    </p>
+  </div>
+</section>
+
+<!-- ======= Journey ======= -->
+<section id="journey" class="sec">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Step by Step</span>
+      <h2 class="h-display sec-title" data-i18n="j.title">မြန်မာမှ ဘန်ကောက်သို့ — ၅ ဆင့်</h2>
+    </div>
+    <div class="j-wrap">
+      <div class="j-rail"><i class="j-fill" id="jFill"></i></div>
+      <div id="jSteps"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======= Booking ======= -->
+<section id="booking" class="sec">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Booking & Registration</span>
+      <h2 class="h-display sec-title" style="color:var(--paper)" data-i18n="bk.title">ကြိုတင်ချိန်းဆိုခြင်း နှင့် လူနာ မှတ်ပုံတင်</h2>
+      <p class="sec-sub" data-i18n="bk.sub">ဖောင် တင်ပြီးပါက ကျွန်ုပ်တို့ ဝန်ထမ်းများသည် ၂၄ နာရီအတွင်း Viber ဖြင့် ပြန်လည်ဆက်သွယ်ပါလိမ့်မည်။ ဤဝန်ဆောင်မှုသည် လုံးဝ အခမဲ့ ဖြစ်သည်။</p>
+    </div>
+    <div class="book-grid">
+      <div class="panel">
+        <div class="tabs">
+          <button class="tab on" id="tabAppt" data-i18n="bk.tab1">ချိန်းဆိုမှု</button>
+          <button class="tab" id="tabReg" data-i18n="bk.tab2">လူနာ မှတ်ပုံတင်</button>
+        </div>
+
+        <!-- Appointment form -->
+        <form id="formAppt" novalidate>
+          <div class="f-grid">
+            <div class="f-field">
+              <label for="aHosp" data-i18n="f.hosp">ဆေးရုံ ရွေးပါ</label>
+              <select id="aHosp" name="hospital"></select>
+            </div>
+            <div class="f-field">
+              <label for="aDept" data-i18n="f.dept">အထူးပြု ဌာန</label>
+              <select id="aDept" name="dept"></select>
+            </div>
+            <div class="f-field">
+              <label for="aDate" data-i18n="f.date">လိုချုန်သော နေ့</label>
+              <input type="date" id="aDate" name="date">
+              <span class="err" data-err="aDate"></span>
+            </div>
+            <div class="f-field">
+              <label for="aTime" data-i18n="f.time">အချိန်</label>
+              <select id="aTime" name="time">
+                <option value="am"></option>
+                <option value="pm"></option>
+                <option value="any"></option>
+              </select>
+            </div>
+            <div class="f-field">
+              <label for="aName" data-i18n="f.name">အမည် (ပါစပေါ့အတိုင်း)</label>
+              <input type="text" id="aName" name="name">
+              <span class="err" data-err="aName"></span>
+            </div>
+            <div class="f-field">
+              <label for="aPhone" data-i18n="f.phone">ဖုန်းနံပါတ်</label>
+              <input type="tel" id="aPhone" name="phone" placeholder="+95 9 …">
+              <span class="err" data-err="aPhone"></span>
+            </div>
+            <div class="f-field">
+              <label for="aApp" data-i18n="f.app">ပြန်ဆက်သွယ်ရမည့် လမ်းကြောင်း</label>
+              <select id="aApp" name="app">
+                <option value="Viber">Viber</option>
+                <option value="WhatsApp">WhatsApp</option>
+                <option value="Telegram">Telegram</option>
+                <option value="LINE">LINE</option>
+                <option value="call"></option>
+              </select>
+            </div>
+            <div class="f-field full">
+              <label for="aNotes" data-i18n="f.notes">ရောဂါ အချက်အလက် / မေးခွန်းများ</label>
+              <textarea id="aNotes" name="notes" data-i18n-ph="f.notes.ph" placeholder="နာတာရှိပါက၊ စစ်ဆေးမှုရလဒ်များ ရှိပါက ဤနေရာတွင် ရေးပါ"></textarea>
+            </div>
+            <div class="f-field full">
+              <label class="consent"><input type="checkbox" id="aConsent"><span data-i18n="f.consent">ကိုယ်ရေးအချက်အလက်များကို ဤချိန်းဆိုမှု အတွက်သာ အသုံးပြုရန် ခွင့်ပြုပါသည်။</span></label>
+              <span class="err" data-err="aConsent"></span>
+            </div>
+          </div>
+          <div class="form-submit">
+            <button type="submit" class="btn btn-green" data-i18n="f.submit1">ချိန်းဆိုမှု ပေးပို့မည်</button>
+          </div>
+        </form>
+
+        <!-- Registration form -->
+        <form id="formReg" novalidate style="display:none">
+          <div class="f-grid">
+            <div class="f-field">
+              <label for="rName" data-i18n="f.name">အမည် (ပါစပေါ့အတိုင်း)</label>
+              <input type="text" id="rName" name="name">
+              <span class="err" data-err="rName"></span>
+            </div>
+            <div class="f-field">
+              <label for="rNrc" data-i18n="f.nrc">မှတ်ပုံတင် / ပါစပေါ့ နံပါတ်</label>
+              <input type="text" id="rNrc" name="nrc" placeholder="12/ABC(N)123456">
+              <span class="err" data-err="rNrc"></span>
+            </div>
+            <div class="f-field">
+              <label for="rDob" data-i18n="f.dob">မွေးသက္ကရာဇ်</label>
+              <input type="date" id="rDob" name="dob">
+              <span class="err" data-err="rDob"></span>
+            </div>
+            <div class="f-field">
+              <label for="rGender" data-i18n="f.gender">ကျား / မ</label>
+              <select id="rGender" name="gender">
+                <option value="m"></option>
+                <option value="f"></option>
+                <option value="o"></option>
+              </select>
+            </div>
+            <div class="f-field">
+              <label for="rBlood" data-i18n="f.blood">သွေးအမျိုးအစား</label>
+              <select id="rBlood" name="blood">
+                <option>A</option><option>B</option><option>AB</option><option>O</option>
+                <option value="?"></option>
+              </select>
+            </div>
+            <div class="f-field">
+              <label for="rEName" data-i18n="f.ename">အရေးပေါ် ဆက်သွယ်ရမည့်သူ</label>
+              <input type="text" id="rEName" name="ename">
+              <span class="err" data-err="rEName"></span>
+            </div>
+            <div class="f-field">
+              <label for="rEPhone" data-i18n="f.ephone">အရေးပေါ် ဖုန်းနံပါတ်</label>
+              <input type="tel" id="rEPhone" name="ephone">
+              <span class="err" data-err="rEPhone"></span>
+            </div>
+            <div class="f-field full">
+              <label for="rAllergy" data-i18n="f.allergy">ဓာတ်မတည့်မှု / နာတာရှုံး ရောဂါများ</label>
+              <textarea id="rAllergy" name="allergy" data-i18n-ph="f.allergy.ph" placeholder="မရှိပါက ချန်ထားနိုင်ပါသည်"></textarea>
+            </div>
+            <div class="f-field full">
+              <label class="consent"><input type="checkbox" id="rConsent"><span data-i18n="f.consent">ကိုယ်ရေးအချက်အလက်များကို ဤချိန်းဆိုမှု အတွက်သာ အသုံးပြုရန် ခွင့်ပြုပါသည်။</span></label>
+              <span class="err" data-err="rConsent"></span>
+            </div>
+          </div>
+          <div class="form-submit">
+            <button type="submit" class="btn btn-green" data-i18n="f.submit2">မှတ်ပုံတင် ပေးပို့မည်</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Side column: perks / success ticket -->
+      <div>
+        <div class="aside-card" id="sideInfo">
+          <h3 data-i18n="bk.why">ဘာကြောင့် ကျွန်ုပ်တို့နှင့်အတူ ချိန်းဆိုသင့်သည်</h3>
+          <div class="perk"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="bk.p1">ဝန်ဆောင်ခ လုံးဝ အခမဲ့ — ငွေကို ဆေးရုံတွင်မှ ပေးချေရမည်</span></div>
+          <div class="perk"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="bk.p2">၂၄ နာရီအတွင်း Viber / WhatsApp ဖြင့် ပြန်ကြားမည်</span></div>
+          <div class="perk"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="bk.p3">မြန်မာဘာသာပြန်ကို အခမဲ့ စီစဉ်ပေးမည်</span></div>
+          <div class="perk"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="bk.p4">ဗီဇာ စာရွက်စာတမ်းများ ကူညီပြင်ဆင်ပေးမည်</span></div>
+        </div>
+
+        <div id="sideTicket" style="display:none">
+          <div class="ticket">
+            <div class="tk-head">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m8 12.5 2.5 2.5L16 9.5"/></svg>
+              <h3 id="tkTitle"></h3>
+            </div>
+            <div class="tk-ref">
+              <small data-i18n="tk.ref">ညွှန်းနံပါတ်</small>
+              <b id="tkRef"></b>
+            </div>
+            <div class="tk-rows" id="tkRows"></div>
+            <p class="tk-note" id="tkNote"></p>
+            <div class="tk-bar"></div>
+            <div class="tk-actions">
+              <button class="btn btn-green btn-sm" id="tkCopy"></button>
+              <button class="btn btn-ghost btn-sm" id="tkNew"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======= Contact ======= -->
+<section id="contact" class="sec">
+  <div class="wrap">
+    <div>
+      <div class="sec-head">
+        <span class="eyebrow">Hotlines & Contact</span>
+        <h2 class="h-display sec-title" data-i18n="ct.title">ဖုန်းနံပါတ်များ နှင့် အမြန်လိုင်း</h2>
+        <p class="sec-sub" data-i18n="ct.sub">မြန်မာနိုင်ငံမှ တိုက်ရိုက် ခေါ်ဆိုနိုင်သည်။ Viber / WhatsApp တွင် စာရေးမေးရန်လည်း ဖွင့်လှစ်ထားပါသည်။</p>
+      </div>
+
+      <a class="hot-line" href="tel:+959770111222">
+        <span class="hot-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.13.96.36 1.9.7 2.8a2 2 0 0 1-.45 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.45c.9.34 1.84.57 2.8.7A2 2 0 0 1 22 16.9z"/></svg></span>
+        <span>
+          <span class="hot-label" data-i18n="ct.h1">မြန်မာ အမြန်လိုင်း</span>
+          <span class="hot-num">+95 9 770 111 222</span>
+          <span class="hot-note" data-i18n="ct.h1n">Viber · WhatsApp — မြန်မာစကားနှင့် ဝန်ဆောင်မှု</span>
+        </span>
+        <svg class="hot-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+
+      <a class="hot-line" href="tel:+6621082345">
+        <span class="hot-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.13.96.36 1.9.7 2.8a2 2 0 0 1-.45 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.45c.9.34 1.84.57 2.8.7A2 2 0 0 1 22 16.9z"/></svg></span>
+        <span>
+          <span class="hot-label" data-i18n="ct.h2">ဘန်ကောက် ရုံးချုပ်</span>
+          <span class="hot-num">+66 2 108 2345</span>
+          <span class="hot-note" data-i18n="ct.h2n">မြန်မာ · ထိုင်း · အင်္ဂလိပ် — ၃ ဘာသာဖြင့် ဝန်ဆောင်မှု</span>
+        </span>
+        <svg class="hot-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+
+      <a class="hot-line urgent" href="tel:1669">
+        <span class="hot-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.6-9.3-9A5.6 5.6 0 0 1 12 6.7 5.6 5.6 0 0 1 21.3 12C19 16.4 12 21 12 21z"/></svg></span>
+        <span>
+          <span class="hot-label" data-i18n="ct.h3">အရေးပေါ် (ထိုင်းနိုင်ငံအတွင်း)</span>
+          <span class="hot-num">1669</span>
+          <span class="hot-note" data-i18n="ct.h3n">ထိုင်းနိုင်ငံ အရေးပေါ် ဆေးဘက်ဆိုင်ရာ အကူအညီ (အခမဲ့)</span>
+        </span>
+        <svg class="hot-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+
+      <a class="hot-line" href="mailto:help.mm@bkkguide.co">
+        <span class="hot-ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7 8 6 8-6"/></svg></span>
+        <span>
+          <span class="hot-label" data-i18n="ct.h4">စာတို ပေးပို့ရန်</span>
+          <span class="hot-num" style="font-size:1.25rem">help.mm@bkkguide.co</span>
+          <span class="hot-note" data-i18n="ct.h4n">စာရွက်စာတမ်းများ ပေးပို့ရန် အသုံးဝင်သည်</span>
+        </span>
+        <svg class="hot-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+
+    <div class="contact-side">
+      <div class="clock-block"><b id="clockYangon">--:--:--</b><span data-i18n="ct.ck1">ရန်ကုန် · ဒီအချိန်</span></div>
+      <div class="clock-block"><b id="clockBangkok">--:--:--</b><span data-i18n="ct.ck2">ဘန်ကောက် · ဒီအချိန်</span></div>
+      <div class="side-rows">
+        <div class="side-row">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+          <span><b data-i18n="ct.hours">ဖွင့်ချိန်</b> — <span data-i18n="ct.hoursv">တနင်္လာ – စနေ · ၀၈:၀၀ – ၂၀:၀၀ (ဘန်ကောက်)</span></span>
+        </div>
+        <div class="side-row">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-5.4-7-11a7 7 0 0 1 14 0c0 5.6-7 11-7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>
+          <span><b data-i18n="ct.addr">ရုံးလိပ်စာ</b> — <span data-i18n="ct.addrv">၈၈/၂၄ ဖယာထိုင်း လမ်းမ၊ ဖယာထိုင်း၊ ဘန်ကောက် ၁၀၄၀၀</span></span>
+        </div>
+        <div class="side-row">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.6L3 21l1.9-5.6A8.5 8.5 0 1 1 21 11.5z"/></svg>
+          <span><b data-i18n="ct.chat">စကားဝိုင်း</b> — Viber · WhatsApp · LINE: @bkkguide</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ======= Footer ======= -->
+<footer>
+  <div class="wrap">
+    <div>
+      <div class="foot-brand">
+        <svg width="34" height="34" viewBox="0 0 44 44" fill="none"><rect x="2" y="2" width="40" height="40" rx="11" fill="#F5F1E4"/><path d="M22 12v20M12 22h20" stroke="#0E5B4B" stroke-width="5" stroke-linecap="round"/></svg>
+        <span>Bangkok Hospital Guide</span>
+      </div>
+      <p class="foot-desc" data-i18n="ft.about">ဘန်ကောက် ဆေးရုံ လမ်းညွှန်သည် မြန်မာလူနာများအနေဖြင့် ထိုင်းနိုင်ငံရှိ ကျော်ကြားသော ဆေးရုံများသို့ ယုံကြည်စိတ်ချစွာ သွားရောက်နိုင်ရန် ကူညီပေးသည့် လွတ်လပ်သော လမ်းညွှန် ဝန်ဆောင်မှု ဖြစ်သည်။</p>
+    </div>
+    <div>
+      <h4 data-i18n="ft.links">အမြန် လင့်ခ်များ</h4>
+      <a href="#hospitals" data-i18n="nav.hospitals">ဆေးရုံများ</a>
+      <a href="#packages" data-i18n="nav.costs">ကုန်ကျစရိတ်</a>
+      <a href="#journey" data-i18n="nav.journey">ခရီးစဉ် အဆင့်များ</a>
+      <a href="#booking" data-i18n="nav.booking">ချိန်းဆိုမှု</a>
+      <a href="#contact" data-i18n="nav.contact">ဆက်သွယ်ရန်</a>
+    </div>
+    <div>
+      <h4 data-i18n="ft.contact">ဆက်သွယ်ရန်</h4>
+      <a href="tel:+959770111222">Myanmar · +95 9 770 111 222</a>
+      <a href="tel:+6621082345">Bangkok · +66 2 108 2345</a>
+      <a href="mailto:help.mm@bkkguide.co">help.mm@bkkguide.co</a>
+      <a href="#" onclick="return false">LINE · @bkkguide</a>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="foot-bottom">
+      <span>© 2025 Bangkok Hospital Guide</span>
+      <span data-i18n="ft.disc">ဤဝန်ဆောင်မှုသည် လမ်းညွှန်မှုသာ ဖြစ်ပြီး ဆေးဘက်ဆိုင်ရာ အကြံပေးချက် မဟုတ်ပါ။ ကုသမှု ဆုံးဖြတ်ချက်များကို ဆရာဝန်နှင့် တိုင်ပင်ပါ။</span>
+    </div>
+  </div>
+</footer>
+
+<a id="callFab" href="tel:+959770111222" aria-label="Call hotline">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.13.96.36 1.9.7 2.8a2 2 0 0 1-.45 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.45c.9.34 1.84.57 2.8.7A2 2 0 0 1 22 16.9z"/></svg>
+</a>
+
+<div id="toast" role="status"></div>
+
+<script>
+/* ================= i18n dictionary ================= */
+const T = {
+  my: {
+    'top.left':'မြန်မာဖောက်သည်များအတွက် အမြန်လိုင်း — Viber · WhatsApp · ဖုန်း',
+    'top.right':'တနင်္လာ – စနေ · ၀၈:၀၀ – ၂၀:၀၀ (ဘန်ကောက်အချိန်)',
+    'brand.sub':'ဘန်ကောက်မြို့ ဆေးရုံ လမ်းညွှန် · မြန်မာ / ထိုင်း',
+    'nav.hospitals':'ဆေးရုံများ','nav.costs':'ကုန်ကျစရိတ်','nav.journey':'ခရီးစဉ် အဆင့်များ','nav.booking':'ချိန်းဆိုမှု','nav.contact':'ဆက်သွယ်ရန်',
+    'hero.eyebrow':'မြန်မာလူနာများအတွက် · ထိုင်းနိုင်ငံ',
+    'hero.l1':'ဘန်ကောက်မှာ စိတ်ချရတဲ့ ကုသမှု',
+    'hero.l2':'မြန်မာလို လမ်းပြပေးမည်',
+    'hero.sub':'ဆေးရုံ ၂၀ ကျော်ကို နှိုင်းယှဉ်ပြီး ကြိုတင်ချိန်းဆိုနိုင်သည်။ မြန်မာဘာသာပြန်၊ ဗီဇာနှင့် ခရီးသွားအကူအညီ၊ ကုန်ကျစရိတ် ခန့်မှန်းချက် — အားလုံးကို တစ်နေရာတည်းမှ။',
+    'hero.cta1':'ကြိုတင်ချိန်းဆိုပါ','hero.cta2':'အမြန်လိုင်း ခေါ်ပါ',
+    'hero.quick':'အထူးပြုမှု ရွေးပါ — ဆေးရုံစာရင်းကို အလိုအလျောက် စစ်ပေးမည်',
+    'board.title':'မနက်ဖြန် နာရီလွတ်များ','board.stamp':'မြန်မာဘာသာပြန်|တာဝန်ထမ်းဆောင်နေ','board.reserve':'ချိန်းဆိုမည်','board.with':'မြန်မာဘာသာပြန်နှင့်အတူ',
+    'stat.s1':'မိတ်ဖက် ဆေးရုံ','stat.s2':'မြန်မာဘာသာပြန်','stat.s3':'နှစ်ကြာ မြန်မာလူနာများကို ကူညီခြင်း','stat.s4':'လူနာ ကျေနပ်မှု',
+    'dir.title':'ဆေးရုံနှင့် ဆေးခန်း လမ်းညွှန်',
+    'dir.sub':'စျေးနှုန်းအဆင့်၊ မြန်မာဘာသာပြန် ရရှိမှုနှင့် ဌာနအထူးပြုများဖြင့် နှိုင်းယှဉ်ကြည့်ပါ။ အတန်းတစ်ခုကို နှိပ်ပြီး အသေးစိတ်ကို ကြည့်ပါ။',
+    'dir.ph':'ဆေးရုံနာမည်၊ ဌာန ရှာပါ…','dir.all':'အားလုံး','dir.showing':'ဆေးရုံ ပြသနေသည်',
+    'dir.empty':'ကိုက်ညီမှု မတွေ့ပါ — စစ်ထိန်းများကို ပြောင်းလဲကြည့်ပါ။','dir.reset':'စစ်ထိန်း အားလုံး ဖျက်',
+    'dir.int.yes':'မြန်မာဘာသာပြန် ပုံမှန်ရှိ','dir.int.req':'တောင်းဆိုပါက စီစဉ်ပေး',
+    'dir.depts':'ဌာနများ','dir.pkgs':'ခန့်မှန်း ကုန်ကျစရိတ်','dir.phone':'ဖုန်း','dir.area':'ဒေသ',
+    'dir.book':'ဒီဆေးရုံမှာ ချိန်းဆို','dir.call':'ဖုန်းခေါ်','dir.from':'မှ',
+    'pkg.title':'ကုသမှု ကုန်ကျစရိတ် ခန့်မှန်းချက်',
+    'pkg.sub':'ထင်ရှားသော ဝန်ဆောင်မှုများ၏ ပျမ်းမျှ စျေးနှုန်း (ထိုင်း ဘတ်) — ဆေးရုံနှင့် ကုသနည်းအပေါ် မူတည်ပြောင်းနိုင်သည်။',
+    'pkg.fx':'ငွေလဲလှယ်နှုန်း ၁ ဘတ် ≈ ၁၄၅ ကျပ် — နေ့စဉ် ပြောင်းလဲနိုင်ပါသည်။',
+    'j.title':'မြန်မာမှ ဘန်ကောက်သို့ — ၅ ဆင့်',
+    'bk.title':'ကြိုတင်ချိန်းဆိုခြင်း နှင့် လူနာ မှတ်ပုံတင်',
+    'bk.sub':'ဖောင် တင်ပြီးပါက ကျွန်ုပ်တို့ ဝန်ထမ်းများသည် ၂၄ နာရီအတွင်း Viber ဖြင့် ပြန်လည်ဆက်သွယ်ပါလိမ့်မည်။ ဤဝန်ဆောင်မှုသည် လုံးဝ အခမဲ့ ဖြစ်သည်။',
+    'bk.tab1':'ချိန်းဆိုမှု','bk.tab2':'လူနာ မှတ်ပုံတင်',
+    'bk.why':'ဘာကြောင့် ကျွန်ုပ်တို့နှင့်အတူ ချိန်းဆိုသင့်သည်',
+    'bk.p1':'ဝန်ဆောင်ခ လုံးဝ အခမဲ့ — ငွေကို ဆေးရုံတွင်မှ ပေးချေရမည်',
+    'bk.p2':'၂၄ နာရီအတွင်း Viber / WhatsApp ဖြင့် ပြန်ကြားမည်',
+    'bk.p3':'မြန်မာဘာသာပြန်ကို အခမဲ့ စီစဉ်ပေးမည်',
+    'bk.p4':'ဗီဇာ စာရွက်စာတမ်းများ ကူညီပြင်ဆင်ပေးမည်',
+    'f.hosp':'ဆေးရုံ ရွေးပါ','f.dept':'အထူးပြု ဌာန','f.date':'လိုချုန်သော နေ့','f.time':'အချိန်',
+    'f.am':'မနက် (၀၈:၀၀–၁၂:၀၀)','f.pm':'နေ့လယ် (၁၃:၀၀–၁၆:၀၀)','f.any':'မည်သည့်အချိန်မဆို',
+    'f.name':'အမည် (ပါစပေါ့အတိုင်း)','f.phone':'ဖုန်းနံပါတ်','f.app':'ပြန်ဆက်သွယ်ရမည့် လမ်းကြောင်း',
+    'f.call':'ဖုန်းဖြင့် ခေါ်ပါ','f.notes':'ရောဂါ အချက်အလက် / မေးခွန်းများ',
+    'f.notes.ph':'နာတာရှိပါက၊ စစ်ဆေးမှုရလဒ်များ ရှိပါက ဤနေရာတွင် ရေးပါ',
+    'f.consent':'ကိုယ်ရေးအချက်အလက်များကို ဤချိန်းဆိုမှု အတွက်သာ အသုံးပြုရန် ခွင့်ပြုပါသည်။',
+    'f.submit1':'ချိန်းဆိုမှု ပေးပို့မည်','f.submit2':'မှတ်ပုံတင် ပေးပို့မည်',
+    'f.nrc':'မှတ်ပုံတင် / ပါစပေါ့ နံပါတ်','f.dob':'မွေးသက္ကရာဇ်','f.gender':'ကျား / မ',
+    'f.male':'ကျား','f.female':'မ','f.other':'အခြား',
+    'f.blood':'သွေးအမျိုးအစား','f.unknown':'မသိပါ',
+    'f.ename':'အရေးပေါ် ဆက်သွယ်ရမည့်သူ','f.ephone':'အရေးပေါ် ဖုန်းနံပါတ်',
+    'f.allergy':'ဓာတ်မတည့်မှု / နာတာရှုံး ရောဂါများ','f.allergy.ph':'မရှိပါက ချန်ထားနိုင်ပါသည်',
+    'err.req':'ဤနေရာကို ဖြည့်ပါ','err.phone':'ဖုန်းနံပါတ်ကို မှန်ကန်စွာ ဖြည့်ပါ','err.consent':'ခွင့်ပြုချက် ရွေးချယ်ပါ',
+    'tk.ref':'ညွှန်းနံပါတ်',
+    'tk.appt':'ချိန်းဆိုမှု လက်ခံရရှိပါသည်','tk.reg':'မှတ်ပုံတင်ခြင်း အောင်မြင်ပါသည်',
+    'tk.note':'ကျွန်ုပ်တို့ ဝန်ထမ်းများသည် ၂၄ နာရီအတွင်း ဆက်သွယ်ပါလိမ့်မည်။ ဤညွှန်းနံပါတ်ကို သိမ်းဆည်းထားပါ။',
+    'tk.copy':'နံပါတ် ကော်ပီယူ','tk.new':'နောက်တစ်ခု ချိန်းဆိုမည်',
+    'tk.hosp':'ဆေးရုံ','tk.dept':'ဌာန','tk.date':'ရက်','tk.time':'အချိန်','tk.name':'အမည်','tk.nrc':'မှတ်ပုံတင်','tk.dob':'မွေးသက္ကရာဇ်',
+    't.any':'မည်သည့်အချိန်မဆို',
+    'ct.title':'ဖုန်းနံပါတ်များ နှင့် အမြန်လိုင်း',
+    'ct.sub':'မြန်မာနိုင်ငံမှ တိုက်ရိုက် ခေါ်ဆိုနိုင်သည်။ Viber / WhatsApp တွင် စာရေးမေးရန်လည်း ဖွင့်လှစ်ထားပါသည်။',
+    'ct.h1':'မြန်မာ အမြန်လိုင်း','ct.h1n':'Viber · WhatsApp — မြန်မာစကားနှင့် ဝန်ဆောင်မှု',
+    'ct.h2':'ဘန်ကောက် ရုံးချုပ်','ct.h2n':'မြန်မာ · ထိုင်း · အင်္ဂလိပ် — ၃ ဘာသာဖြင့် ဝန်ဆောင်မှု',
+    'ct.h3':'အရေးပေါ် (ထိုင်းနိုင်ငံအတွင်း)','ct.h3n':'ထိုင်းနိုင်ငံ အရေးပေါ် ဆေးဘက်ဆိုင်ရာ အကူအညီ (အခမဲ့)',
+    'ct.h4':'စာတို ပေးပို့ရန်','ct.h4n':'စာရွက်စာတမ်းများ ပေးပို့ရန် အသုံးဝင်သည်',
+    'ct.ck1':'ရန်ကုန် · ဒီအချိန်','ct.ck2':'ဘန်ကောက် · ဒီအချိန်',
+    'ct.hours':'ဖွင့်ချိန်','ct.hoursv':'တနင်္လာ – စနေ · ၀၈:၀၀ – ၂၀:၀၀ (ဘန်ကောက်)',
+    'ct.addr':'ရုံးလိပ်စာ','ct.addrv':'၈၈/၂၄ ဖယာထိုင်း လမ်းမ၊ ဖယာထိုင်း၊ ဘန်ကောက် ၁၀၄၀၀',
+    'ct.chat':'စကားဝိုင်း',
+    'ft.about':'ဘန်ကောက် ဆေးရုံ လမ်းညွှန်သည် မြန်မာလူနာများအနေဖြင့် ထိုင်းနိုင်ငံရှိ ကျော်ကြားသော ဆေးရုံများသို့ ယုံကြည်စိတ်ချစွာ သွားရောက်နိုင်ရန် ကူညီပေးသည့် လွတ်လပ်သော လမ်းညွှန် ဝန်ဆောင်မှု ဖြစ်သည်။',
+    'ft.links':'အမြန် လင့်ခ်များ','ft.contact':'ဆက်သွယ်ရန်',
+    'ft.disc':'ဤဝန်ဆောင်မှုသည် လမ်းညွှန်မှုသာ ဖြစ်ပြီး ဆေးဘက်ဆိုင်ရာ အကြံပေးချက် မဟုတ်ပါ။ ကုသမှု ဆုံးဖြတ်ချက်များကို ဆရာဝန်နှင့် တိုင်ပင်ပါ။',
+    'toast.prefill':'ဆေးရုံ ရွေးချယ်ပြီးပါပြီ — ဖောင်ကို ဆက်ဖြည့်ပါ',
+    'toast.copied':'ညွှန်းနံပါတ် ကော်ပီ ယူလိုက်ပါပြီ',
+    'toast.sent':'ပေးပို့မှု အောင်မြင်ပါသည်',
+    'doc.title':'Bangkok Hospital Guide — ဘန်ကောက် ဆေးရုံ လမ်းညွှန်'
+  },
+  th: {
+    'top.left':'สายด่วนสำหรับลูกค้าชาวเมียนมา — Viber · WhatsApp · โทรศัพท์',
+    'top.right':'จันทร์ – เสาร์ · 08:00 – 20:00 น. (เวลาไทย)',
+    'brand.sub':'คู่มือโรงพยาบาลกรุงเทพ · เมียนมา / ไทย',
+    'nav.hospitals':'โรงพยาบาล','nav.costs':'ค่าใช้จ่าย','nav.journey':'ขั้นตอนการเดินทาง','nav.booking':'จองนัดหมาย','nav.contact':'ติดต่อเรา',
+    'hero.eyebrow':'สำหรับผู้ป่วยชาวเมียนมา · ประเทศไทย',
+    'hero.l1':'การรักษาที่น่าวางใจในกรุงเทพ',
+    'hero.l2':'แนะนำด้วยภาษาเมียนมา',
+    'hero.sub':'เปรียบเทียบโรงพยาบาลกว่า 20 แห่ง จองนัดล่วงหน้า พร้อมล่ามภาษาเมียนมา ช่วยเรื่องวีซ่าและการเดินทาง พร้อมประเมินค่าใช้จ่าย — ครบในที่เดียว',
+    'hero.cta1':'จองนัดหมาย','hero.cta2':'โทรสายด่วน',
+    'hero.quick':'เลือกแผนกเฉพาะทาง — เราจะกรองรายการโรงพยาบาลให้อัตโนมัติ',
+    'board.title':'รอบว่างวันพรุ่งนี้','board.stamp':'มีล่ามภาษาเมียนมา|ประจำวันนี้','board.reserve':'จองรอบนี้','board.with':'พร้อมล่ามภาษาเมียนมา',
+    'stat.s1':'โรงพยาบาลเครือข่าย','stat.s2':'ล่ามภาษาเมียนมา','stat.s3':'ปีแห่งการดูแลผู้ป่วยเมียนมา','stat.s4':'ความพึงพอใจของผู้ป่วย',
+    'dir.title':'คู่มือโรงพยาบาลและคลินิก',
+    'dir.sub':'เปรียบเทียบตามระดับราคา การมีล่ามภาษาเมียนมา และแผนกเฉพาะทาง แตะแต่ละรายการเพื่อดูรายละเอียด',
+    'dir.ph':'ค้นหาชื่อโรงพยาบาลหรือแผนก…','dir.all':'ทั้งหมด','dir.showing':'แห่งที่กำลังแสดง',
+    'dir.empty':'ไม่พบผลลัพธ์ — ลองเปลี่ยนเงื่อนไขการค้นหา','dir.reset':'ล้างตัวกรองทั้งหมด',
+    'dir.int.yes':'มีล่ามเมียนมาประจำ','dir.int.req':'จัดล่ามเมื่อแจ้งล่วงหน้า',
+    'dir.depts':'แผนกเด่น','dir.pkgs':'ราคาโดยประมาณ','dir.phone':'โทรศัพท์','dir.area':'ย่าน',
+    'dir.book':'จองนัดที่นี่','dir.call':'โทร','dir.from':'เริ่มต้น',
+    'pkg.title':'ประมาณการค่ารักษายอดนิยม',
+    'pkg.sub':'ราคาเฉลี่ยของบริการยอดนิยม (บาท) — อาจแตกต่างตามโรงพยาบาลและวิธีการรักษา',
+    'pkg.fx':'อัตราแลกเปลี่ยน 1 บาท ≈ 145 จ๊าด (Kyat) — อาจเปลี่ยนแปลงทุกวัน',
+    'j.title':'จากเมียนมาถึงกรุงเทพ — 5 ขั้นตอน',
+    'bk.title':'จองนัดหมายและลงทะเบียนผู้ป่วย',
+    'bk.sub':'กรอกแบบฟอร์มแล้ว เจ้าหน้าที่จะติดต่อกลับทาง Viber ภายใน 24 ชั่วโมง บริการนี้ฟรีทั้งหมด',
+    'bk.tab1':'จองนัดหมาย','bk.tab2':'ลงทะเบียนผู้ป่วย',
+    'bk.why':'ทำไมต้องจองนัดกับเรา',
+    'bk.p1':'ไม่มีค่าบริการ — ชำระค่ารักษาที่โรงพยาบาลเท่านั้น',
+    'bk.p2':'ตอบกลับทาง Viber / WhatsApp ภายใน 24 ชม.',
+    'bk.p3':'จัดล่ามภาษาเมียนมาให้ฟรี',
+    'bk.p4':'ช่วยเตรียมเอกสารสมัครวีซ่า',
+    'f.hosp':'เลือกโรงพยาบาล','f.dept':'แผนกเฉพาะทาง','f.date':'วันที่ต้องการ','f.time':'ช่วงเวลา',
+    'f.am':'เช้า (08:00–12:00)','f.pm':'บ่าย (13:00–16:00)','f.any':'เวลาใดก็ได้',
+    'f.name':'ชื่อ-นามสกุล (ตามพาสปอร์ต)','f.phone':'เบอร์โทรศัพท์','f.app':'ช่องทางติดต่อกลับ',
+    'f.call':'โทรศัพท์','f.notes':'อาการหรือคำถามเพิ่มเติม',
+    'f.notes.ph':'อธิบายอาการ หรือแจ้งผลตรวจเดิมที่มี',
+    'f.consent':'ฉันยินยอมให้ใช้ข้อมูลส่วนตัวเพื่อการนัดหมายนี้เท่านั้น',
+    'f.submit1':'ส่งคำขอจองนัด','f.submit2':'ส่งใบลงทะเบียน',
+    'f.nrc':'เลขบัตรประชาชน / พาสปอร์ต','f.dob':'วันเกิด','f.gender':'เพศ',
+    'f.male':'ชาย','f.female':'หญิง','f.other':'อื่น ๆ',
+    'f.blood':'หมู่เลือด','f.unknown':'ไม่ทราบ',
+    'f.ename':'ผู้ติดต่อฉุกเฉิน','f.ephone':'เบอร์ผู้ติดต่อฉุกเฉิน',
+    'f.allergy':'โรคประจำตัว / การแพ้ยา','f.allergy.ph':'หากไม่มี เว้นว่างได้',
+    'err.req':'กรุณากรอกข้อมูลนี้','err.phone':'เบอร์โทรศัพท์ไม่ถูกต้อง','err.consent':'กรุณายินยอมก่อน',
+    'tk.ref':'รหัสอ้างอิง',
+    'tk.appt':'รับคำขอจองนัดเรียบร้อย','tk.reg':'ลงทะเบียนสำเร็จแล้ว',
+    'tk.note':'เจ้าหน้าที่จะติดต่อกลับภายใน 24 ชั่วโมง กรุณาเก็บรหัสอ้างอิงนี้ไว้',
+    'tk.copy':'คัดลอกรหัส','tk.new':'จองรอบใหม่',
+    'tk.hosp':'โรงพยาบาล','tk.dept':'แผนก','tk.date':'วันที่','tk.time':'เวลา','tk.name':'ชื่อ','tk.nrc':'เลขบัตร/พาสปอร์ต','tk.dob':'วันเกิด',
+    't.any':'เวลาใดก็ได้',
+    'ct.title':'เบอร์ติดต่อและสายด่วน',
+    'ct.sub':'โทรตรงจากเมียนมาได้เลย หรือทักแชทผ่าน Viber / WhatsApp ก็ได้',
+    'ct.h1':'สายด่วนเมียนมา','ct.h1n':'Viber · WhatsApp — บริการภาษาเมียนมา',
+    'ct.h2':'สำนักงานกรุงเทพ','ct.h2n':'เมียนมา · ไทย · อังกฤษ — บริการ 3 ภาษา',
+    'ct.h3':'ฉุกเฉิน (ภายในไทย)','ct.h3n':'บริการทางการแพทย์ฉุกเฉินของไทย (ฟรี)',
+    'ct.h4':'อีเมล','ct.h4n':'เหมาะสำหรับส่งเอกสารและผลตรวจ',
+    'ct.ck1':'เวลาย่างกุ้งตอนนี้','ct.ck2':'เวลากรุงเทพตอนนี้',
+    'ct.hours':'เวลาทำการ','ct.hoursv':'จันทร์ – เสาร์ · 08:00 – 20:00 น. (เวลาไทย)',
+    'ct.addr':'ที่อยู่สำนักงาน','ct.addrv':'88/24 ถ.พญาไท แขวงพญาไท เขตพญาไท กรุงเทพฯ 10400',
+    'ct.chat':'แชท',
+    'ft.about':'Bangkok Hospital Guide คือบริการแนะนำอิสระ ช่วยให้ผู้ป่วยชาวเมียนมาเข้าถึงโรงพยาบาลชั้นนำในประเทศไทยได้อย่างมั่นใจ',
+    'ft.links':'ลิงก์ด่วน','ft.contact':'ติดต่อเรา',
+    'ft.disc':'เว็บไซต์นี้เป็นบริการแนะนำเท่านั้น ไม่ใช่คำแนะนำทางการแพทย์ โปรดปรึกษาแพทย์ก่อนตัดสินใจรักษา',
+    'toast.prefill':'เลือกโรงพยาบาลแล้ว — กรุณากรอกแบบฟอร์มต่อ',
+    'toast.copied':'คัดลอกรหัสอ้างอิงแล้ว',
+    'toast.sent':'ส่งเรียบร้อยแล้ว',
+    'doc.title':'Bangkok Hospital Guide — คู่มือโรงพยาบาลกรุงเทพ'
+  }
+};
+
+/* ================= Data ================= */
+const SPECS = {
+  cardio:   {my:'နှလုံး', th:'หัวใจ'},
+  onco:     {my:'ကင်ဆာ', th:'มะเร็ง'},
+  ortho:    {my:'အရိုးနှင့် အဆစ်', th:'กระดูกและข้อ'},
+  maternity:{my:'မီးယပ် / IVF', th:'สูติ-นารี / IVF'},
+  ped:      {my:'ကလေး အထူးပြု', th:'กุมารเวชกรรม'},
+  checkup:  {my:'ကျန်းမာရေးစစ်ဆေး', th:'ตรวจสุขภาพ'},
+  beauty:   {my:'အလှကုသ', th:'ความงาม'},
+  neuro:    {my:'ဦးနှောက်နှင့် အာရုံကြော', th:'สมองและประสาท'}
+};
+SPECS.general = {my:'အထွေထွေ တိုင်ပင်', th:'ปรึกษาทั่วไป'};
+
+const HOSPITALS = [
+  { id:'bangkok', en:'Bangkok Hospital', th:'โรงพยาบาลกรุงเทพ', mm:'ဘန်ကောက် ဆေးရုံ',
+    area:{my:'ဖယာထိုင်', th:'พญาไท'}, tier:3, phone:'+66 2 310 3000', interp:'yes',
+    specs:['cardio','onco','neuro','checkup'],
+    desc:{my:'ထိုင်းနိုင်ငံ၏ အကြီးဆုံး ပုဂ္ဂလိက ဆေးရုံကွန်ယက်၏ ပင်မ ဆေးရုံ။ နှလုံး ခွဲစိတ်မှုနှင့် ကင်ဆာ ကုသမှုတွင် ထင်ရှားပြီး မြန်မာဘာသာပြန် ဌာန ခွဲခြမ်း ရှိသည်။', th:'โรงพยาบาลแม่ข่ายของเครือใหญ่ที่สุดในไทย มีชื่อเสียงด้านหัวใจและมะเร็ง มีเคาน์เตอร์อำนวยความสะดวกภาษาเมียนมาโดยเฉพาะ'},
+    depts:{my:['နှလုံး ခွဲစိတ်ဌာန','ကင်ဆာ ကုသရေး','ဦးနှောက်နှင့် အာရုံကြော','ကျန်းမာရေး စစ်ဆေးရေး'], th:['ศูนย์หัวใจ','ศูนย์มะเร็ง','ประสาทวิทยา','ชุดตรวจสุขภาพ']},
+    pkgs:[{my:'ကျန်းမာရေး စစ်ဆေး (Executive)',th:'ตรวจสุขภาพ Executive',p:'฿8,900'},{my:'နှလုံး MRI',th:'MRI หัวใจ',p:'฿25,000'},{my:'နှလုံး ပိုက်ထည့် (Stent)',th:'ใส่สแตนท์หัวใจ',p:'฿450,000'}] },
+  { id:'bumrungrad', en:'Bumrungrad International', th:'โรงพยาบาลบำรุงเชื้อ', mm:'ဘမ်ရွန်ဂရိတ် အပြည်ပြည်ဆိုင်ရာ ဆေးရုံ',
+    area:{my:'ဆူခုမ်ဝစ်', th:'คลองเตย'}, tier:4, phone:'+66 2 066 8888', interp:'yes',
+    specs:['cardio','onco','ped','checkup'],
+    desc:{my:'နိုင်ငံတကာ လူနာများအတွက် ကမ္ဘာကျော် ဆေးရုံ။ တစ်နှစ်လျှင် နိုင်ငံပေါင်း ၁၉၀ ကျော်မှ လူနာများ လာရောက်ပြီး မြန်မာလူနာ အထူး အကူအညီပေးရေး ဌာန ရှိသည်။', th:'โรงพยาบาลที่มีผู้ป่วยต่างชาติมากที่สุดแห่งหนึ่งของโลก มีแผนกดูแลผู้ป่วยเมียนมาโดยเฉพาะ'},
+    depts:{my:['နှလုံး','ကင်ဆာ','ကလေး အထူးပြု','ခွဲစိတ် အထွေထွေ'], th:['หัวใจ','มะเร็ง','กุมารเวชกรรม','ศัลยกรรมทั่วไป']},
+    pkgs:[{my:'စစ်ဆေးမှု အစီအစဉ် (Comprehensive)',th:'ชุดตรวจสุขภาพ Comprehensive',p:'฿12,000'},{my:'နှလုံး MRI',th:'MRI หัวใจ',p:'฿20,000'},{my:'နှလုံးလမ်းကြောင်း ခွဲစိတ် (Bypass)',th:'ทำบายพาสหัวใจ',p:'฿900,000'}] },
+  { id:'samitivej', en:'Samitivej Sukhumvit', th:'โรงพยาบาลสมิติเวช สุขุมวิท', mm:'ဆာမီတီဂျေ ဆူခုမ်ဝစ် ဆေးရုံ',
+    area:{my:'ဝတ္ထနာ', th:'วัฒนา'}, tier:3, phone:'+66 2 711 8181', interp:'req',
+    specs:['ped','maternity','checkup'],
+    desc:{my:'ဆူခုမ်ဝစ် လမ်းမပေါ်ရှိ အရည်အသွေးမြင့် ဆေးရုံ။ ကလေး အထူးပြုနှင့် မီးယပ် ကုသမှုတွင် ထင်ရှားသည်။ ဝန်ဆောင်မှု စံနှုန်း မြင့်မားသည်။', th:'โรงพยาบาลระดับพรีเมียมบนถนนสุขุมวิท เลื่องชื่อด้านกุมารเวชกรรมและสูติ-นารี บริการมาตรฐานสูง'},
+    depts:{my:['ကလေး အထူးပြု','မီးယပ် နှင့် မီးဖွား','ကျန်းမာရေးစစ်ဆေး','အရေးပေါ်'], th:['กุมารเวชกรรม','สูติ-นารี','ตรวจสุขภาพ','ฉุกเฉิน']},
+    pkgs:[{my:'သားဖွား ပက်ကေ့ (ပုံမှန်)',th:'แพ็กเกจคลอดบุตร',p:'฿95,000'},{my:'ကျန်းမာရေး စစ်ဆေး',th:'ตรวจสุขภาพ',p:'฿9,000'},{my:'ကလေး ကျန်းမာရေး စစ်ဆေး',th:'ตรวจสุขภาพเด็ก',p:'฿3,500'}] },
+  { id:'phyathai2', en:'Phyathai 2 Hospital', th:'โรงพยาบาลพญาไท ๒', mm:'ဖယာထိုင်း (၂) ဆေးရုံ',
+    area:{my:'ဖယာထိုင်', th:'พญาไท'}, tier:2, phone:'+66 2 617 2444', interp:'yes',
+    specs:['cardio','checkup','maternity'],
+    desc:{my:'မြန်မာလူနာများ ကြာရှည်စွာ သွားရောက်လာသော ဆေးရုံ။ ကုန်ကျစရိတ် သက်သာပြီး IVF နှင့် ကျန်းမာရေး စစ်ဆေးမှု အစီအစဉ်များ လူကြိုက်များသည်။', th:'โรงพยาบาลยอดนิยมของผู้ป่วยเมียนมา ราคาจับต้องได้ มีชื่อเสียงด้าน IVF และชุดตรวจสุขภาพ'},
+    depts:{my:['IVF ဌာန','နှလုံး','ကျန်းမာရေးစစ်ဆေး','အရိုး'], th:['IVF','หัวใจ','ตรวจสุขภาพ','กระดูกและข้อ']},
+    pkgs:[{my:'ကျန်းမာရေး စစ်ဆေး',th:'ตรวจสุขภาพ',p:'฿4,900'},{my:'IVF (တစ် စက်ဝန်း)',th:'ทำ IVF (1 รอบ)',p:'฿220,000'},{my:'နှလုံး စကรီနင်',th:'คัดกรองโรคหัวใจ',p:'฿5,900'}] },
+  { id:'paolo', en:'Paolo Hospital Phaholyothin', th:'โรงพยาบาลเปาโล พหลโยธิน', mm:'ပါအိုလို ဖဟolini ဆေးရုံ',
+    area:{my:'ဖယာထိုင်', th:'พญาไท'}, tier:2, phone:'+66 2 619 8585', interp:'req',
+    specs:['ortho','neuro','checkup'],
+    desc:{my:'ခွဲစိတ် အထွေထွေနှင့် ရုံးဝန်ထမ်း ကျန်းမာရေး စစ်ဆေးမှုများတွင် ထင်ရှားသည်။ BTS ဖဟာန် ယော်ထင် ဘူတာနှင့် နီးစပ်သည်။', th:'โดดเด่นด้านศัลยกรรมทั่วไปและแพ็กเกจตรวจสุขภาพ อยู่ใกล้ BTS พหลโยธิน'},
+    depts:{my:['အရိုး ခွဲစိတ်','ဦးနှောက်','ကျန်းမာရေးစစ်ဆေး','အစာအိမ်'], th:['กระดูกและข้อ','สมอง','ตรวจสุขภาพ','ทางเดินอาหาร']},
+    pkgs:[{my:'ကျန်းမာရေး စစ်ဆေး',th:'ตรวจสุขภาพ',p:'฿5,500'},{my:'ဒူး အစားထိုး',th:'เปลี่ยนข้อเข่าเทียม',p:'฿420,000'},{my:'ဦးနှောက် MRI',th:'MRI สมอง',p:'฿15,000'}] },
+  { id:'praram9', en:'Praram 9 Hospital', th:'โรงพยาบาลพระราม ๙', mm:'ပရာမ် (၉) ဆေးရုံ',
+    area:{my:'ဟွေ့ခွance်', th:'ห้วยขวาง'}, tier:2, phone:'+66 2 202 9999', interp:'yes',
+    specs:['cardio','onco','ortho'],
+    desc:{my:'နှလုံးရောဂါ အထူးပြု ဆေးရုံ ဖြစ်ပြီး ပိုက်ထည့်ကုသမှု (Angioplasty) တွင် အတွေ့အကြုံ များသည်။ ကုန်ကျစရိတ် ထိရောက်မှု ရှိသည်။', th:'โรงพยาบาลเชี่ยวชาญโรคหัวใจ มีประสบการณ์สูงด้านขยายหลอดเลือดใส่สแตนท์ คุ้มค่าด้านราคา'},
+    depts:{my:['နှလုံး','ကင်ဆာ','အရိုး','အရေးပေါ်'], th:['หัวใจ','มะเร็ง','กระดูกและข้อ','ฉุกเฉิน']},
+    pkgs:[{my:'နှလုံး စကရီနင်',th:'คัดกรองโรคหัวใจ',p:'฿6,500'},{my:'နှလုံး ပိုက်ထည့် (Stent)',th:'ใส่สแตนท์',p:'฿380,000'},{my:'နှလုံး အလုံးစုံ စစ်ဆေး',th:'เช็คหัวใจแบบเต็ม',p:'฿18,000'}] },
+  { id:'bnh', en:'BNH Hospital', th:'โรงพยาบาลบีเอ็นเอช', mm:'ဘီအန်အိတ်ချ် (BNH) ဆေးရုံ',
+    area:{my:'ဆာထွန်', th:'สาทร'}, tier:3, phone:'+66 2 686 2700', interp:'req',
+    specs:['maternity','checkup'],
+    desc:{my:'မီးယပ်နှင့် မျိုးဆက်ဆိုင်ရာ ကုသမှု (IVF) တွင် နာမည်ကြီးသည်။ ဆီလွန်–ဆာထွန် လမ်းမ ဒေသတွင် တည်ရှိသည်။', th:'ชื่อดังด้านสูติ-นารีและเด็กหลอดแก้ว (IVF) ตั้งอยู่ย่านสีลม–สาทร'},
+    depts:{my:['မီးယပ်','IVF','ကျန်းမာရေးစစ်ဆေး','ကင်ဆာ'], th:['สูติ-นารี','IVF','ตรวจสุขภาพ','มะเร็ง']},
+    pkgs:[{my:'IVF (တစ် စက်ဝန်း)',th:'ทำ IVF (1 รอบ)',p:'฿250,000'},{my:'ကိုယ်ဝန် ကာလ စောင့်ရှောက်',th:'แพ็กเกจฝากครรภ์',p:'฿75,000'},{my:'သားဖွား ပက်ကေ့',th:'แพ็กเกจคลอด',p:'฿110,000'}] },
+  { id:'yanhee', en:'Yanhee Hospital', th:'โรงพยาบาลยานฮี', mm:'ယန်ဟီ ဆေးရုံ',
+    area:{my:'ဘန်ကောက်နိုင်', th:'บางกอกน้อย'}, tier:1, phone:'+66 2 879 0300', interp:'yes',
+    specs:['beauty'],
+    desc:{my:'အလှကုသ ခွဲစိတ်မှုတွင် အထူး ထင်ရှားသည်။ နှာခေါင်း အလှကုသ၊ မျက်စိ နှစ်ထပ်၊ အဆီစုပ် စသည်တို့ကို ကုန်ကျစရိတ် သက်သာစွာ ပြုလုပ်ပေးသည်။', th:'โรงพยาบาลที่มีชื่อเสียงด้านศัลยกรรมความงาม เสริมจมูก ทำตาสองชั้น ดูดไขมัน ในราคาประหยัด'},
+    depts:{my:['အလှ ခွဲစိတ်','အသားအရေ','လေဆာ ကုသမှု','အလေးချိန် ထိန်း'], th:['ศัลยกรรมความงาม','ผิวหนัง','เลเซอร์','ควบคุมน้ำหนัก']},
+    pkgs:[{my:'နှာခေါင်း အလှကုသ',th:'เสริมจมูก',p:'฿65,000'},{my:'အဆီစုပ်',th:'ดูดไขมัน',p:'฿85,000'},{my:'မျက်စိ နှစ်ထပ်',th:'ทำตาสองชั้น',p:'฿35,000'}] }
+];
+
+const PACKAGES = [
+  {my:'အထွေထွေ ကျန်းမာရေး စစ်ဆေးမှု', th:'ตรวจสุขภาพทั่วไป', sub:'Basic–Executive', p:'฿5,000 – 15,000'},
+  {my:'နှလုံး ပိုက်ထည့်ကုသမှု (Stent)', th:'ขยายหลอดเลือดหัวใจใส่สแตนท์', sub:'Angioplasty', p:'฿350,000 – 550,000'},
+  {my:'သားဖွား (ပုံမှန်)', th:'คลอดบุตรธรรมดา', sub:'Normal Delivery', p:'฿60,000 – 100,000'},
+  {my:'IVF (တစ် စက်ဝန်း)', th:'ทำ IVF (1 รอบ)', sub:'IVF Cycle', p:'฿200,000 – 280,000'},
+  {my:'ဒူးခေါင်း အစားထိုး', th:'เปลี่ยนข้อเข่าเทียม', sub:'Knee Replacement', p:'฿380,000 – 600,000'},
+  {my:'နှာခေါင်း အလှကုသ', th:'เสริมจมูก', sub:'Rhinoplasty', p:'฿60,000 – 120,000'},
+  {my:'မျက်စိ LASIK', th:'ทำ LASIK', sub:'Vision Correction', p:'฿55,000 – 95,000'},
+  {my:'ဦးနှောက် MRI', th:'MRI สมอง', sub:'Brain MRI', p:'฿12,000 – 22,000'}
+];
+
+const STEPS = [
+  {tag:{my:'၁ ရက်အတွင်း ပြန်ကြား', th:'ตอบกลับใน 1 วัน'},
+   t:{my:'ဆက်သွယ် စုံစမ်းပါ', th:'ติดต่อสอบถาม'},
+   d:{my:'Viber၊ WhatsApp သို့မဟုတ် ဖုန်းဖြင့် ရောဂါအခြေအနေနှင့် စာရွက်စာတမ်းများ ပေးပို့ပါ။ မြန်မာစကားနှင့် တိုက်ရိုက် အကူအညီ ရမည်။', th:'แชร์อาการและเอกสารผ่าน Viber, WhatsApp หรือโทรศัพท์ คุยภาษาเมียนมาได้เลย'}},
+  {tag:{my:'အခမဲ့ အကြံပေး', th:'ปรึกษาฟรี'},
+   t:{my:'ဆေးရုံ ရွေးပြီး ကုန်ကျစရိတ် ခန့်မှန်း', th:'เลือกโรงพยาบาล ประเมินราคา'},
+   d:{my:'ဆရာဝန် အကြံပေးမှု၊ ခန့်မှန်း ကုန်ကျစရိတ်နှင့် ချိန်းဆိုနေ့ကို စာရွက်စာတမ်းဖြင့် အတည်ပြုပေးမည်။', th:'รับคำแนะนำแพทย์ ใบประเมินราคา และยืนยันวันนัดหมายเป็นลายลักษณ์อักษร'}},
+  {tag:{my:'စာရွက် ကူညီစစ်', th:'ช่วยตรวจเอกสาร'},
+   t:{my:'ဗီဇာနှင့် ခရီးစဉ် ပြင်ဆင်ခြင်း', th:'เตรียมวีซ่าและการเดินทาง'},
+   d:{my:'ဆေးရုံမှ ထောက်ခံစာ၊ ဗီဇာ လျှောက်ထားရန် စာရွက်များ၊ လေယာဉ် လက်မှတ်နှင့် တည်းခိုနေရာ အားလုံး စီစဉ်ပေးပါသည်။', th:'จัดเตรียมหนังสือรับรองแพทย์ เอกสารยื่นวีซ่า ตั๋วเครื่องบิน และที่พักให้ครบ'}},
+  {tag:{my:'လေဆိပ် တွေ့ဆုံ', th:'รับที่สนามบิน'},
+   t:{my:'ဘာသာပြန်နှင့်အတူ ကုသမှုခံယူ', th:'รับการรักษาพร้อมล่าม'},
+   d:{my:'ရောက်ရှိသည်နှင့် လေဆိပ်မှ ဆေးရုံအထိ မြန်မာဘာသာပြန် လိုက်ပါပေးမည်။ ကုသမှု အစီအစဉ်နှင့် ငွေပေးချေမှု အားလုံး ရှင်းလင်းပြောပြပါမည်။', th:'ล่ามภาษาเมียนมาอธิบายทุกขั้นตอนตั้งแต่สนามบินถึงโรงพยาบาล ค่าใช้จ่ายชัดเจนทุกบาท'}},
+  {tag:{my:'ဆက်လက် တိုင်ပင်', th:'ติดตามต่อเนื่อง'},
+   t:{my:'ပြန်လည် စောင့်ကြည့်ခြင်း', th:'ดูแลหลังการรักษา'},
+   d:{my:'ဆေးဝါးများကို မြန်မာနိုင်ငံသို့ ပို့ဆောင်ပေးခြင်း၊ ဗီဒီယိုဖြင့် ဆရာဝန်နှင့် ဆက်လက် တွေ့ဆုံခြင်း ဝန်ဆောင်မှုများ ရှိသည်။', th:'ส่งยากลับเมียนมาได้ และนัดปรึกษาแพทย์ทางไกลต่อได้'}}
+];
+
+const BOARD = [
+  {h:'bumrungrad', spec:'cardio',   time:'09:30'},
+  {h:'phyathai2',  spec:'checkup',  time:'10:00'},
+  {h:'bnh',        spec:'maternity',time:'11:15'},
+  {h:'praram9',    spec:'cardio',   time:'13:30'},
+  {h:'samitivej',  spec:'ped',      time:'14:00'},
+  {h:'bangkok',    spec:'neuro',    time:'15:45'}
+];
+
+/* ================= Helpers ================= */
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+let lang = 'my';
+const t = k => (T[lang] && T[lang][k]) || k;
+const loc = o => o ? (o[lang] !== undefined ? o[lang] : o) : '';
+
+let toastTimer;
+function toast(msg){
+  const el = $('#toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2800);
+}
+
+/* ================= Language ================= */
+function applyLang(){
+  document.body.dataset.lang = lang;
+  document.documentElement.lang = lang === 'my' ? 'my' : 'th';
+  document.title = t('doc.title');
+  $$('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
+  $$('[data-i18n-ph]').forEach(el => { el.placeholder = t(el.dataset.i18nPh); });
+  $$('.lang-seg button').forEach(b => b.classList.toggle('on', b.dataset.langBtn === lang));
+  renderHeroChips(); renderChips(); renderDirectory(); renderPackages(); renderSteps(); renderBoard(true);
+  fillSelect($('#aTime'), [['am',t('f.am')],['pm',t('f.pm')],['any',t('f.any')]]);
+  fillSelect($('#aApp'), [['Viber','Viber'],['WhatsApp','WhatsApp'],['Telegram','Telegram'],['LINE','LINE'],['call',t('f.call')]]);
+  fillSelect($('#rGender'), [['m',t('f.male')],['f',t('f.female')],['o',t('f.other')]]);
+  fillSelect($('#rBlood'), [['A','A'],['B','B'],['AB','AB'],['O','O'],['?',t('f.unknown')]]);
+  fillHospitalSelect(); fillDeptSelect();
+}
+$$('.lang-seg button').forEach(b => b.addEventListener('click', () => {
+  if (b.dataset.langBtn !== lang){ lang = b.dataset.langBtn; applyLang(); }
+}));
+
+/* ================= Hero chips + board ================= */
+function renderHeroChips(){
+  const box = $('#heroChips'); box.innerHTML = '';
+  Object.keys(SPECS).forEach(k => {
+    const b = document.createElement('button');
+    b.className = 'chip'; b.textContent = SPECS[k][lang];
+    b.addEventListener('click', () => {
+      filter.spec = k;
+      renderChips(); renderDirectory();
+      document.getElementById('hospitals').scrollIntoView({behavior:'smooth'});
+    });
+    box.appendChild(b);
+  });
+}
+
+let bi = 0, lastBoardHTML = '';
+function boardEntryHTML(){
+  const e = BOARD[bi];
+  const h = HOSPITALS.find(x => x.id === e.h);
+  return `<div class="slot">
+    <span class="slot-time mono">${e.time}</span>
+    <span class="slot-dept">${SPECS[e.spec][lang]} · ${t('board.with')}</span>
+    <span class="slot-hosp">${h[lang] || h.en}</span>
+    <span class="slot-row">
+      <span class="slot-hosp">${loc(h.area)}</span>
+      <button class="slot-reserve" data-h="${h.id}" data-spec="${e.spec}">${t('board.reserve')}</button>
+    </span>
+  </div>`;
+}
+function renderBoard(reset){
+  const html = boardEntryHTML();
+  if (html !== lastBoardHTML){
+    const slot = $('#boardSlot');
+    slot.innerHTML = html; lastBoardHTML = html;
+    slot.classList.remove('flip'); void slot.offsetWidth; slot.classList.add('flip');
+    const bar = $('#boardBar');
+    bar.classList.remove('run'); void bar.offsetWidth; bar.classList.add('run');
+  }
+  $$('.slot-reserve').forEach(btn => btn.addEventListener('click', () => {
+    prefillBooking(btn.dataset.h, btn.dataset.spec);
+  }));
+}
+setInterval(() => { bi = (bi + 1) % BOARD.length; renderBoard(); }, 4000);
+
+/* ================= Directory ================= */
+const filter = { q:'', spec:'all' };
+let openId = null;
+
+function renderChips(){
+  const box = $('#specChips'); box.innerHTML = '';
+  const mk = (key, label) => {
+    const b = document.createElement('button');
+    b.className = 'chip' + (filter.spec === key ? ' on' : '');
+    b.textContent = label;
+    b.addEventListener('click', () => { filter.spec = key; renderChips(); renderDirectory(); });
+    box.appendChild(b);
+  };
+  mk('all', t('dir.all'));
+  Object.keys(SPECS).forEach(k => mk(k, SPECS[k][lang]));
+}
+function renderHeroChipsState(){}
+
+function filteredHospitals(){
+  const q = filter.q.trim().toLowerCase();
+  return HOSPITALS.filter(h => {
+    if (filter.spec !== 'all' && !h.specs.includes(filter.spec)) return false;
+    if (!q) return true;
+    const hay = [h.en, h.th, h.mm, loc(h.area), h.specs.map(s => SPECS[s][lang]).join(' ')].join(' ').toLowerCase();
+    return hay.includes(q);
+  });
+}
+
+function renderDirectory(){
+  const list = filteredHospitals();
+  const box = $('#dirList'); box.innerHTML = '';
+  $('#dirCount').textContent = list.length + ' ' + t('dir.showing');
+  $('#dirEmpty').style.display = list.length ? 'none' : 'block';
+  list.forEach((h, i) => {
+    const row = document.createElement('article');
+    row.className = 'h-row' + (h.id === openId ? ' open' : '');
+    row.innerHTML = `
+      <button class="h-head" aria-expanded="${h.id === openId}">
+        <span class="h-no">${String(i+1).padStart(2,'0')}</span>
+        <span class="h-name"><strong>${h[lang] || h.en}</strong><span>${h.en} · ${loc(h.area)}</span></span>
+        <span class="h-specs">${h.specs.slice(0,3).map(s => `<span class="mini-tag">${SPECS[s][lang]}</span>`).join('')}</span>
+        <span class="h-tier" title="${'฿'.repeat(h.tier)}">${[1,2,3,4].map(n => `<i class="${n <= h.tier ? 'f' : ''}"></i>`).join('')}</span>
+        <span class="h-int ${h.interp === 'yes' ? '' : 'req'}">${h.interp === 'yes' ? t('dir.int.yes') : t('dir.int.req')}</span>
+        <svg class="h-chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="h-body">
+        <div>
+          <p class="h-desc">${loc(h.desc)}</p>
+          <div class="h-depts">${loc(h.depts).map(d => `<span class="mini-tag">${d}</span>`).join('')}</div>
+          <div class="h-meta">
+            <span>${t('dir.phone')}: <b class="mono">${h.phone}</b></span>
+            <span>${t('dir.area')}: <b>${loc(h.area)}</b></span>
+            <span>${'฿'.repeat(h.tier)}</span>
+          </div>
+          <div class="h-actions">
+            <button class="btn btn-green btn-sm" data-book="${h.id}" data-spec="${h.specs[0]}">${t('dir.book')}</button>
+            <a class="btn btn-ghost btn-sm" href="tel:${h.phone.replace(/\s/g,'')}">${t('dir.call')} ${h.phone}</a>
+          </div>
+        </div>
+        <div>
+          <p style="font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:8px;font-family:'Fraunces',serif">${t('dir.pkgs')}</p>
+          <div class="pkg-list">
+            ${h.pkgs.map(p => `<div class="pkg"><span>${loc(p)}</span><span class="dots"></span><b>${p.p}</b></div>`).join('')}
+          </div>
+        </div>
+      </div>`;
+    row.querySelector('.h-head').addEventListener('click', () => {
+      openId = openId === h.id ? null : h.id;
+      renderDirectory();
+    });
+    box.appendChild(row);
+  });
+  $$('[data-book]').forEach(b => b.addEventListener('click', () => prefillBooking(b.dataset.book, b.dataset.spec)));
+}
+
+$('#dirSearch').addEventListener('input', e => { filter.q = e.target.value; renderDirectory(); });
+$('#dirReset').addEventListener('click', () => {
+  filter.q = ''; filter.spec = 'all';
+  $('#dirSearch').value = '';
+  renderChips(); renderDirectory();
+});
+
+/* ================= Packages ================= */
+function renderPackages(){
+  $('#pkgList').innerHTML = PACKAGES.map(p => `
+    <div class="p-row">
+      <span class="name">${p[lang]}<span>${p.sub}</span></span>
+      <span class="dots"></span>
+      <span class="price">${p.p}</span>
+    </div>`).join('');
+}
+
+/* ================= Journey ================= */
+function renderSteps(){
+  $('#jSteps').innerHTML = STEPS.map((s, i) => `
+    <div class="step">
+      <span class="step-dot mono">${i+1}</span>
+      <div>
+        <h3>${s.t[lang]} <span class="tag">${s.tag[lang]}</span></h3>
+        <p>${s.d[lang]}</p>
+      </div>
+    </div>`).join('');
+}
+
+function journeyTick(){
+  const sec = $('#journey');
+  const r = sec.getBoundingClientRect();
+  const anchor = innerHeight * 0.72;
+  const passed = Math.max(0, Math.min(anchor - r.top, r.height - 80));
+  $('#jFill').style.height = passed + 'px';
+  $$('.step').forEach(s => {
+    s.classList.toggle('done', s.getBoundingClientRect().top < anchor);
+  });
+}
+addEventListener('scroll', journeyTick, {passive:true});
+
+/* ================= Booking forms ================= */
+function fillSelect(sel, pairs, keep){
+  const cur = keep && sel.value ? sel.value : (sel.selectedIndex > 0 ? sel.options[sel.selectedIndex].value : null);
+  sel.innerHTML = pairs.map(([v, l]) => `<option value="${v}">${l}</option>`).join('');
+  if (cur) sel.value = cur;
+}
+function fillHospitalSelect(){
+  const sel = $('#aHosp');
+  const anyLabel = lang === 'my' ? 'ဆေးရုံ မဆုံးဖြတ်ရသေးပါ — အကြံပေးပါ' : 'ยังไม่แน่ใจ — ขอคำแนะนำ';
+  const cur = sel.value;
+  sel.innerHTML = `<option value="">${anyLabel}</option>` +
+    HOSPITALS.map(h => `<option value="${h.id}">${h[lang] || h.en}</option>`).join('');
+  if (cur) sel.value = cur;
+}
+function fillDeptSelect(){
+  const sel = $('#aDept');
+  const cur = sel.value;
+  const pairs = Object.keys(SPECS).map(k => [k, SPECS[k][lang]]);
+  sel.innerHTML = pairs.map(([v, l]) => `<option value="${v}">${l}</option>`).join('');
+  if (cur) sel.value = cur;
+}
+
+/* tabs */
+$('#tabAppt').addEventListener('click', () => switchTab(true));
+$('#tabReg').addEventListener('click', () => switchTab(false));
+function switchTab(appt){
+  $('#tabAppt').classList.toggle('on', appt);
+  $('#tabReg').classList.toggle('on', !appt);
+  $('#formAppt').style.display = appt ? '' : 'none';
+  $('#formReg').style.display = appt ? 'none' : '';
+  $('#sideInfo').style.display = '';
+  $('#sideTicket').style.display = 'none';
+}
+
+/* validation helpers */
+const phoneOk = v => /^[+0-9][0-9\s\-()]{6,}$/.test(v.trim());
+function setErr(id, msg){
+  const f = document.getElementById(id);
+  const e = document.querySelector(`[data-err="${id}"]`);
+  if (msg){ if (f && f.type !== 'checkbox') f.classList.add('bad'); e.textContent = msg; e.classList.add('show'); }
+  else { if (f) f.classList.remove('bad'); e.classList.remove('show'); }
+}
+$$('input,select,textarea').forEach(el =>
+  el.addEventListener('input', () => setErr(el.id, ''))
+);
+
+let lastTicket = null;
+function buildTicket(titleKey, ref, rows){
+  lastTicket = { titleKey, ref, rows };
+  $('#tkTitle').textContent = t(titleKey);
+  $('#tkRef').textContent = ref;
+  $('#tkRows').innerHTML = rows.map(([l, v]) =>
+    `<div class="tk-row"><span>${l}</span><b>${v}</b></div>`).join('');
+  $('#tkNote').textContent = t('tk.note');
+  $('#tkCopy').textContent = t('tk.copy');
+  $('#tkNew').textContent = t('tk.new');
+  $('#sideInfo').style.display = 'none';
+  const tk = $('#sideTicket');
+  tk.style.display = '';
+  tk.scrollIntoView({behavior:'smooth', block:'nearest'});
+  toast(t('toast.sent'));
+}
+
+$('#formAppt').addEventListener('submit', e => {
+  e.preventDefault();
+  let ok = true;
+  const date = $('#aDate'), name = $('#aName'), phone = $('#aPhone'), consent = $('#aConsent');
+  if (!date.value){ setErr('aDate', t('err.req')); ok = false; }
+  if (!name.value.trim()){ setErr('aName', t('err.req')); ok = false; }
+  if (!phoneOk(phone.value)){ setErr('aPhone', phone.value.trim() ? t('err.phone') : t('err.req')); ok = false; }
+  if (!consent.checked){ setErr('aConsent', t('err.consent')); ok = false; }
+  if (!ok) return;
+  const h = HOSPITALS.find(x => x.id === $('#aHosp').value);
+  const ref = 'BHG-' + String(Math.floor(10000 + Math.random() * 90000));
+  const dateStr = new Date(date.value + 'T00:00:00').toLocaleDateString(lang === 'th' ? 'th-TH' : 'en-GB', {day:'numeric', month:'short', year:'numeric'});
+  buildTicket('tk.appt', ref, [
+    [t('tk.hosp'), h ? (h[lang] || h.en) : (lang === 'my' ? 'အကြံပေးမှု လိုအပ်' : 'ขอคำแนะนำ')],
+    [t('tk.dept'), SPECS[$('#aDept').value][lang]],
+    [t('tk.date'), dateStr + ' · ' + ($('#aTime').value === 'any' ? t('t.any') : $('#aTime').selectedOptions[0].textContent.split(' (')[0])],
+    [t('tk.name'), name.value.trim()]
+  ]);
+});
+
+$('#formReg').addEventListener('submit', e => {
+  e.preventDefault();
+  let ok = true;
+  const name = $('#rName'), nrc = $('#rNrc'), dob = $('#rDob'),
+        en = $('#rEName'), ep = $('#rEPhone'), consent = $('#rConsent');
+  if (!name.value.trim()){ setErr('rName', t('err.req')); ok = false; }
+  if (!nrc.value.trim()){ setErr('rNrc', t('err.req')); ok = false; }
+  if (!dob.value){ setErr('rDob', t('err.req')); ok = false; }
+  if (!en.value.trim()){ setErr('rEName', t('err.req')); ok = false; }
+  if (!phoneOk(ep.value)){ setErr('rEPhone', ep.value.trim() ? t('err.phone') : t('err.req')); ok = false; }
+  if (!consent.checked){ setErr('rConsent', t('err.consent')); ok = false; }
+  if (!ok) return;
+  const ref = 'REG-' + String(Math.floor(10000 + Math.random() * 90000));
+  const dobStr = new Date(dob.value + 'T00:00:00').toLocaleDateString(lang === 'th' ? 'th-TH' : 'en-GB', {day:'numeric', month:'short', year:'numeric'});
+  buildTicket('tk.reg', ref, [
+    [t('tk.name'), name.value.trim()],
+    [t('tk.nrc'), nrc.value.trim()],
+    [t('tk.dob'), dobStr]
+  ]);
+});
+
+$('#tkCopy').addEventListener('click', () => {
+  const ref = $('#tkRef').textContent;
+  const done = () => toast(t('toast.copied'));
+  if (navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(ref).then(done).catch(() => fallbackCopy(ref, done));
+  } else fallbackCopy(ref, done);
+});
+function fallbackCopy(text, done){
+  const ta = document.createElement('textarea');
+  ta.value = text; document.body.appendChild(ta); ta.select();
+  try { document.execCommand('copy'); done(); } catch(e){}
+  document.body.removeChild(ta);
+}
+$('#tkNew').addEventListener('click', () => {
+  $('#sideTicket').style.display = 'none';
+  $('#sideInfo').style.display = '';
+  $('#formAppt').reset(); $('#formReg').reset();
+  $('#formAppt').scrollIntoView({behavior:'smooth', block:'center'});
+});
+
+/* prefill from directory / board */
+function prefillBooking(hospId, spec){
+  switchTab(true);
+  const sel = $('#aHosp');
+  sel.value = hospId || '';
+  if (spec) $('#aDept').value = spec;
+  document.getElementById('booking').scrollIntoView({behavior:'smooth'});
+  setTimeout(() => $('#aName').focus({preventScroll:true}), 600);
+  toast(t('toast.prefill'));
+}
+
+/* ================= Clocks ================= */
+const fmtClock = tz => new Intl.DateTimeFormat('en-GB', {hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false, timeZone:tz}).format(new Date());
+function tickClocks(){
+  $('#clockYangon').textContent = fmtClock('Asia/Yangon');
+  $('#clockBangkok').textContent = fmtClock('Asia/Bangkok');
+}
+tickClocks(); setInterval(tickClocks, 1000);
+
+/* ================= Stats count-up ================= */
+const ease = p => 1 - Math.pow(1 - p, 3);
+function countUp(el){
+  const target = +el.dataset.count, suf = el.dataset.suffix || '';
+  const t0 = performance.now(), dur = 1300;
+  (function f(now){
+    const p = Math.min((now - t0) / dur, 1);
+    el.textContent = Math.round(target * ease(p)) + suf;
+    if (p < 1) requestAnimationFrame(f);
+  })(t0);
+}
+const statIO = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting){ countUp(e.target); statIO.unobserve(e.target); }
+}), {threshold:.5});
+$$('.stat b').forEach(b => statIO.observe(b));
+
+/* ================= Header behaviour ================= */
+const head = $('#siteHead');
+addEventListener('scroll', () => head.classList.toggle('scrolled', scrollY > 8), {passive:true});
+$('#hambBtn').addEventListener('click', () => {
+  const m = $('#mobileNav');
+  const open = m.classList.toggle('open');
+  $('#hambBtn').setAttribute('aria-expanded', open);
+});
+$$('#mobileNav a').forEach(a => a.addEventListener('click', () => $('#mobileNav').classList.remove('open')));
+
+/* active nav link */
+const secIO = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting){
+    $$('nav.main a').forEach(a => a.classList.toggle('active', a.dataset.sec === e.target.id));
+  }
+}), {rootMargin:'-40% 0px -55% 0px'});
+['hospitals','packages','journey','booking','contact'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) secIO.observe(el);
+});
+
+/* date min = today */
+const today = new Date().toISOString().split('T')[0];
+$('#aDate').min = today;
+
+/* ================= Init ================= */
+applyLang();
+journeyTick();
+</script>
+</body>
+</html>
